@@ -1,0 +1,11 @@
+{
+  "_note": "nxt-agency 디비전(최상위 디렉터리) 정의. scripts/lint-agents.sh 와 scripts/install.sh 가 이 목록을 기준으로 동작한다. 디비전을 추가하려면 디렉터리를 만들고 여기에 항목을 추가한다.",
+  "divisions": {
+    "guide":       { "label": "안내",   "audience": "모두",                         "icon": "Compass",       "color": "#0EA5E9" },
+    "research":    { "label": "연구",   "audience": "교수·연구자, 대학원생",          "icon": "GraduationCap", "color": "#7C3AED" },
+    "education":   { "label": "교육·진로", "audience": "학생, 대학원생, 교수",        "icon": "BookOpen",      "color": "#22C55E" },
+    "admin":       { "label": "행정",   "audience": "행정직원, 공공기관",             "icon": "ClipboardList", "color": "#F59E0B" },
+    "project":     { "label": "사업단", "audience": "사업단, 행정직원",               "icon": "Target",        "color": "#EF4444" },
+    "engineering": { "label": "개발",   "audience": "학생, 대학원생, 전산 담당자",     "icon": "Code",          "color": "#3B82F6" }
+  }
+}
