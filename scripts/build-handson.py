@@ -227,7 +227,7 @@ def render_page(sc):
     <div class="meta"><span><b>{total}분</b>총 소요</span><span>{e(order)}</span></div>
   </section>
   <div class="progress"><span>진행률</span><div class="bar"><i></i></div><span id="progress-text">0 / 0 확인</span><button type="button" id="reset">초기화</button></div>
-  <div class="note">시작 전 확인: 설치가 되어 있어야 합니다. <code>/</code>(Codex는 <code>$</code>)를 쳤을 때 <code>nxt-demo</code>가 목록에 보이면 준비된 것입니다. 샘플 파일은 레포의 <code>skills/nxt-demo/samples/</code> 또는 설치된 스킬 폴더 안에 있습니다. 붙여 넣기가 번거로우면 <code>/nxt-demo</code>에게 "{e(sc["steps"][0][0])} 샘플로 해 줘"라고 해도 됩니다.</div>
+  <div class="note">시작 전 확인: 설치가 되어 있어야 합니다. <code>/</code>(Codex는 <code>$</code>)를 쳤을 때 <code>nxt-demo</code>가 목록에 보이면 준비된 것입니다. Claude Code 플러그인으로 넣었다면 <code>nxt-agency:nxt-demo</code>처럼 접두어가 붙어 보이며, 아래 실행 명령 앞에도 <code>nxt-agency:</code>를 붙여 치거나 그냥 말로 요청하면 됩니다. 샘플 파일은 레포의 <code>skills/nxt-demo/samples/</code> 또는 설치된 스킬 폴더 안에 있습니다. 붙여 넣기가 번거로우면 <code>/nxt-demo</code>에게 "{e(sc["steps"][0][0])} 샘플로 해 줘"라고 해도 됩니다.</div>
   {labs}
   <section class="done">
     <div class="eyebrow">마무리</div>

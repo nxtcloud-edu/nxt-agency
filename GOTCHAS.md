@@ -52,6 +52,8 @@
 
 - **`script -q <file> bash -lc <cmd>`는 표준입력이 없으면 아무것도 기록하지 않고 종료 코드 1로 끝난다.** 에이전트 셸(Bash 도구)처럼 stdin이 닫힌 환경에서 그렇다. 반드시 `</dev/null`을 붙인다. 또 기록 파일 앞에 `^D` 두 글자와 백스페이스가 남으므로 지운다.
 - **Claude Code 화면은 `claude -p`로 실제 출력을 받아 렌더링한다.** 비대화 모드에서는 스킬의 "시작할까요?" 확인 없이 끝까지 진행되므로, 중간 장면(자료 소개)이 필요하면 프롬프트에 "여기까지만 보여 주고 멈춰 줘"를 붙여 따로 받는다.
+- **Claude CLI 진행 표시는 바뀐 글자만 덮어쓴다(diff 렌더링).** `claude plugin install` 출력은 `CSI 1A`(한 줄 위로)·`CSI nG`(열 이동)로 이전 줄 위에 바뀐 글자만 찍으므로, 커서 이동을 무시하고 이어 붙이면 "Successful y  stalled plugi :"처럼 깨진다. `capture/render.mjs`의 `cleanTerminal`이 셀 버퍼로 흉내 내 실제 화면과 같게 만든다(한글은 2칸).
+- **발표 서버 API 업로드는 `Host: 127.0.0.1:<포트>` 헤더와 `.pptx`로 끝나는 `name`이 필요하다.** `localhost`로 부르면 403("이 컴퓨터의 편집 화면에서만"), 이름에 확장자가 없으면 400. 서버는 `data/catalog.json`을 시작할 때와 자기 API로 바꿀 때만 읽으므로, 이전 버전을 파일에서 지웠으면 서버를 재시작해야 목록에서 사라진다.
 - **발표 서버 importer는 메모를 '설명' 한 구간으로만 저장한다.** `[화면 진행]` 등 네 구간으로 보이려면 등록 직후 `제작도구/서버등록/split-notes.py <서버> <덱ID>`로 data/manifest/notes.json의 sections를 나눠야 한다(GIST 4주차도 publish 파이프라인에서 같은 처리를 했음). 메모 편집 후에는 실행 금지(revision>0이면 스크립트가 거부).
 
 
@@ -59,3 +61,5 @@
 
 - **plugin.json의 `agents`에는 디렉터리를 나열할 수 없다.** `["./admin/", …]`는 "Invalid input"으로 거부되고 파일 경로 배열만 통과한다(문자열 하나로 디렉터리 하나는 가능). 우리 에이전트는 디비전 폴더 6개에 흩어져 있어 파일 27개를 명시하며, `scripts/update-plugin-manifest.py`가 생성하고 lint가 동기화를 검사한다.
 - **플러그인으로 설치하면 스킬·에이전트 이름에 접두어가 붙는다.** `/nxt-agency:meeting-minutes`, `@nxt-agency:statistician`. 설명(description) 기반 자동 위임은 접두어와 무관하게 동작하므로 초보자에게는 "말로 요청" 안내가 더 중요하다. install.sh 설치(접두어 없음)와 플러그인 설치를 함께 쓰면 같은 이름이 두 벌 생기니 한쪽만 쓴다.
+- **`claude plugin details`는 매니페스트 `agents`에 파일로 나열한 에이전트를 "Agents (0)"로 표시한다.** 인벤토리가 `agents/` 폴더만 세는 듯하다. 실제 세션(`claude -p`)에서는 27개가 모두 `nxt-agency:<name>`으로 잡히므로 표시 문제일 뿐이다. 동작 확인은 details가 아니라 세션에서 Agent 도구 목록을 물어봐서 한다(2026-09-20 확인).
+- **플러그인 설치·마켓플레이스 등록은 GitHub에 푸시된 커밋 기준이다.** 로컬만 바꾸고 `/plugin install`을 하면 옛 버전이 들어간다. 갱신 순서: 커밋·푸시 → `claude plugin marketplace update nxt-agency` → 재설치.

@@ -167,3 +167,4 @@ footer{max-width:1180px;margin:0 auto;padding:24px;border-top:1px solid var(--li
 .role-links a b{color:var(--rc)}
 .role-links a span{font-size:.82rem;color:var(--muted)}
 .role-links a:hover{border-color:var(--rc);background:var(--rs)}
+.alt-head{font-family:var(--font-body);font-weight:600;font-size:1rem;margin:22px 0 6px;padding-top:16px;border-top:1px dashed var(--line);color:var(--ink)}
