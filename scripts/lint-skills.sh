@@ -3,7 +3,8 @@
 # nxt-agency 직업군 스킬 검사
 #   - skills/<name>/SKILL.md 의 name 이 디렉터리명과 같아야 함 (소문자·숫자·하이픈)
 #   - 프론트매터 키는 name description license compatibility metadata 만 허용 (claude.ai 업로드 제한)
-#   - metadata.role 은 사업단 | 행정 | 교수·연구자 | 학생
+#   - metadata.role 은 사업단 | 행정 | 교수·연구자 | 학생 | 공통(항상 설치되는 체험·안내 스킬)
+#   - 공통이 아닌 스킬은 skills/nxt-demo/samples/<name>/README.md 샘플이 있어야 함
 #   - metadata.agents 의 각 name 이 레포 에이전트로 존재해야 함
 #   - 필수 섹션: 시작할 때 물어볼 것 / 진행 단계 / 최종 산출물 / 하지 말 것 / 이렇게 시작하세요
 #   - 150줄 초과는 경고
@@ -13,7 +14,7 @@
 set -uo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ALLOWED_KEYS="name description license compatibility metadata allowed-tools"
-ROLES=("사업단" "행정" "교수·연구자" "학생")
+ROLES=("사업단" "행정" "교수·연구자" "학생" "공통")
 REQUIRED_SECTIONS=("시작할 때 물어볼 것" "진행 단계" "최종 산출물" "하지 말 것" "이렇게 시작하세요")
 errors=0; warnings=0
 
@@ -41,6 +42,9 @@ lint() {
   for s in "${REQUIRED_SECTIONS[@]}"; do grep -q "^## .*$s" "$f" || { echo "ERROR $f: 섹션 '## $s' 누락"; errors=$((errors+1)); }; done
   grep -q '^> nxt-agency 직업군 스킬' "$f" || { echo "ERROR $f: 마지막 출처 줄 누락"; errors=$((errors+1)); }
   LC_ALL=C grep -q $'\r' "$f" && { echo "ERROR $f: CRLF"; errors=$((errors+1)); }
+  if [[ "$role" != "공통" && ! -f "$REPO_ROOT/skills/nxt-demo/samples/$name/README.md" ]]; then
+    echo "ERROR $f: 체험 샘플 skills/nxt-demo/samples/$name/README.md 없음"; errors=$((errors+1))
+  fi
   local lines; lines=$(wc -l < "$f"); [[ $lines -le 150 ]] || { echo "WARN  $f: ${lines}줄 (150줄 권장)"; warnings=$((warnings+1)); }
 }
 
