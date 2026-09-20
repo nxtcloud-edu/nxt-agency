@@ -43,165 +43,7 @@ ROLE_WHO = {'사업단': 'LINC 3.0 · RIS · BK21 · 글로컬 등 사업단 직
 DIV_ORDER = ['안내', '연구', '교육·진로', '행정', '사업단', '개발']
 agent_title = {a['name']: a['title'] for a in data['agents']}
 
-CSS = r"""
-:root{
-  --paper:#F6F7F4; --panel:#ECEEE8; --panel-2:#E2E5DD; --ink:#1C2530; --muted:#5A6470; --line:#D3D8CF;
-  --accent:#2B5C8A; --accent-ink:#1E4468; --accent-soft:#DCE7F1; --seal:#B23A2E;
-  --r-project:#8A4B1F; --r-project-soft:#F1E3D6; --r-admin:#2B5C8A; --r-admin-soft:#DCE7F1;
-  --r-research:#5B3E8C; --r-research-soft:#E6DEF3; --r-student:#2E7D5B; --r-student-soft:#DAEEE3;
-  --code-bg:#1E2630; --code-ink:#E8ECE6;
-  --font-display:"Nanum Myeongjo","Apple SD Gothic Neo","Malgun Gothic",serif;
-  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
-  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --radius:4px; --shadow:0 1px 2px rgba(28,37,48,.06);
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --paper:#141A20; --panel:#1B222A; --panel-2:#232C36; --ink:#E6E9E4; --muted:#9AA4AE; --line:#2E3742;
-    --accent:#7FB0DC; --accent-ink:#A9CCEC; --accent-soft:#1F3347; --seal:#E0665A;
-    --r-project:#D9A47A; --r-project-soft:#3A2A1E; --r-admin:#7FB0DC; --r-admin-soft:#1F3347;
-    --r-research:#B49BE0; --r-research-soft:#2E2540; --r-student:#7FC7A3; --r-student-soft:#1E3A2C;
-    --code-bg:#0F141A; --code-ink:#DDE3DC; --shadow:none; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#141A20; --panel:#1B222A; --panel-2:#232C36; --ink:#E6E9E4; --muted:#9AA4AE; --line:#2E3742;
-  --accent:#7FB0DC; --accent-ink:#A9CCEC; --accent-soft:#1F3347; --seal:#E0665A;
-  --r-project:#D9A47A; --r-project-soft:#3A2A1E; --r-admin:#7FB0DC; --r-admin-soft:#1F3347;
-  --r-research:#B49BE0; --r-research-soft:#2E2540; --r-student:#7FC7A3; --r-student-soft:#1E3A2C;
-  --code-bg:#0F141A; --code-ink:#DDE3DC; --shadow:none; color-scheme:dark;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
-a:hover{color:var(--accent-ink)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-code,kbd{font-family:var(--font-mono);font-size:.92em}
-p code{background:var(--panel);padding:.1em .35em;border-radius:var(--radius)}
-h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;line-height:1.3;text-wrap:balance;margin:0}
-h2{font-size:1.75rem;letter-spacing:-.01em}
-h3{font-size:1.2rem}
-.eyebrow{font-family:var(--font-body);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-
-.masthead{border-bottom:1px solid var(--line);background:var(--paper)}
-.masthead__in{max-width:1180px;margin:0 auto;padding:22px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.brand{display:flex;flex-direction:column;gap:6px}
-.brand h1{font-size:2.1rem}
-.brand .sub{color:var(--muted);font-size:.95rem;max-width:56ch}
-.doc-meta{display:flex;flex-direction:column;align-items:flex-end;gap:8px;font-size:.8rem;color:var(--muted);font-family:var(--font-mono)}
-.stamp{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--seal);color:var(--seal);border-radius:50%;font-family:var(--font-display);font-weight:700;font-size:.95rem;letter-spacing:.05em;transform:rotate(-8deg);opacity:.85;line-height:1.1;text-align:center}
-.theme-btn{font:inherit;font-size:.8rem;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:5px 10px;border-radius:999px;cursor:pointer}
-.theme-btn:hover{border-color:var(--accent)}
-
-.layout{max-width:1180px;margin:0 auto;padding:32px 24px 80px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px}
-.toc{position:sticky;top:20px;align-self:start;display:flex;flex-direction:column;gap:4px;font-size:.9rem}
-.toc .eyebrow{margin-bottom:8px}
-.toc a{color:var(--muted);text-decoration:none;padding:5px 10px;border-left:2px solid var(--line);display:flex;gap:10px}
-.toc a b{font-family:var(--font-mono);font-weight:500;color:var(--muted);min-width:1.4em}
-.toc a:hover,.toc a.is-active{color:var(--ink);border-left-color:var(--accent)}
-main{display:flex;flex-direction:column;gap:64px;min-width:0}
-section{display:flex;flex-direction:column;gap:20px;scroll-margin-top:16px}
-.sec-head{display:flex;flex-direction:column;gap:6px}
-.sec-head .num{font-family:var(--font-mono);color:var(--seal);font-size:.85rem}
-.prose{max-width:68ch}
-.prose p{margin:0 0 .9em}
-.prose ul,.prose ol{margin:0 0 .9em;padding-left:1.3em}
-.prose li{margin:.25em 0}
-
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:640px}
-.fact{background:var(--paper);padding:16px 18px;display:flex;flex-direction:column;gap:2px}
-.fact b{font-family:var(--font-display);font-size:1.9rem;font-variant-numeric:tabular-nums;line-height:1.1}
-.fact span{font-size:.85rem;color:var(--muted)}
-
-[data-tabs]{display:flex;flex-direction:column;gap:20px}
-.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.tab{font:inherit;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:10px 16px;color:var(--muted);cursor:pointer;font-weight:500}
-.tab:hover{color:var(--ink)}
-.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
-.panel{display:flex;flex-direction:column;gap:16px}
-.panel[hidden]{display:none}
-
-.step-list{display:flex;flex-direction:column;gap:14px;counter-reset:step;max-width:720px}
-.step{display:grid;grid-template-columns:32px minmax(0,1fr);gap:14px;align-items:start}
-.step::before{counter-increment:step;content:counter(step);width:28px;height:28px;border:1px solid var(--accent);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.85rem;margin-top:3px}
-.step h4{font-family:var(--font-body);font-weight:600;font-size:1rem;margin-bottom:4px}
-.step p{margin:0;color:var(--muted);font-size:.95rem}
-.note{border-left:3px solid var(--accent);background:var(--panel);padding:12px 16px;font-size:.95rem;max-width:720px}
-.note--warn{border-left-color:var(--seal)}
-
-pre.cmd{background:var(--code-bg);color:var(--code-ink);font-family:var(--font-mono);font-size:.88rem;line-height:1.6;padding:14px 16px;margin:0;border-radius:var(--radius);overflow-x:auto;position:relative;max-width:720px}
-pre.cmd .c{color:#8A97A5}
-.cmd-wrap{position:relative;max-width:720px}
-.copy{position:absolute;top:8px;right:8px;font:inherit;font-size:.75rem;background:rgba(255,255,255,.08);color:var(--code-ink);border:1px solid rgba(255,255,255,.18);padding:3px 9px;border-radius:999px;cursor:pointer}
-.copy:hover{background:rgba(255,255,255,.16)}
-
-.chat{max-width:720px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.93rem}
-.chat__bar{background:var(--panel);padding:8px 14px;font-family:var(--font-mono);font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--line)}
-.chat__body{display:flex;flex-direction:column;gap:12px;padding:16px}
-.msg{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start}
-.msg .who{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:4px;font-family:var(--font-mono)}
-.msg .bubble{background:var(--panel);padding:10px 14px;border-radius:var(--radius);white-space:pre-wrap}
-.msg--me .bubble{background:var(--accent-soft);font-family:var(--font-mono);font-size:.88rem}
-
-.role-tabs{display:flex;gap:8px;flex-wrap:wrap}
-.role-tab{font:inherit;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:0;line-height:1.3;text-align:left}
-.role-tab small{color:var(--muted);font-size:.75rem}
-.role-tab[aria-selected="true"]{border-color:var(--rc);background:var(--rs)}
-.role-tab[aria-selected="true"] b{color:var(--rc)}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.card{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);display:flex;flex-direction:column;box-shadow:var(--shadow)}
-.card__head{padding:14px 16px 10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
-.card__head .cmdname{font-family:var(--font-mono);color:var(--rc);font-weight:600;font-size:1.05rem}
-.card__head h3{font-family:var(--font-body);font-weight:600;font-size:1rem}
-.card__body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px;font-size:.92rem;flex:1}
-.card__body p{margin:0;color:var(--muted)}
-.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.8rem}
-.flow span{background:var(--rs);color:var(--rc);padding:2px 8px;border-radius:3px;white-space:nowrap}
-.flow i{color:var(--muted);font-style:normal}
-.ex{display:flex;flex-direction:column;gap:6px;margin-top:auto}
-.ex .eyebrow{font-size:.68rem}
-.exline{display:flex;gap:8px;align-items:flex-start;background:var(--panel);border-radius:3px;padding:6px 8px 6px 10px;font-family:var(--font-mono);font-size:.8rem;line-height:1.45}
-.exline span{flex:1;min-width:0;word-break:break-all}
-.exline button{font:inherit;font-size:.7rem;border:1px solid var(--line);background:var(--paper);color:var(--muted);padding:1px 7px;border-radius:999px;cursor:pointer;white-space:nowrap}
-.exline button:hover{color:var(--ink);border-color:var(--accent)}
-.uses{font-size:.8rem;color:var(--muted)}
-
-.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius)}
-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:640px}
-th{text-align:left;font-weight:600;font-size:.78rem;letter-spacing:.06em;color:var(--muted);background:var(--panel);padding:10px 12px;border-bottom:1px solid var(--line)}
-td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-tr:last-child td{border-bottom:0}
-td.div{font-weight:600;white-space:nowrap}
-td .nm{font-family:var(--font-mono);font-size:.8rem;color:var(--muted)}
-td .ask{font-size:.82rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
-td .ask button{font:inherit;font-size:.7rem;border:1px solid var(--line);background:var(--paper);color:var(--muted);padding:0 7px;border-radius:999px;cursor:pointer;white-space:nowrap}
-td .ask button:hover{color:var(--ink);border-color:var(--accent)}
-
-.faq{display:flex;flex-direction:column;gap:0;max-width:760px;border-top:1px solid var(--line)}
-.faq details{border-bottom:1px solid var(--line)}
-.faq summary{cursor:pointer;padding:14px 4px;font-weight:600;list-style:none;display:flex;gap:12px;align-items:baseline}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::before{content:"Q";font-family:var(--font-mono);color:var(--seal);font-weight:500}
-.faq details[open] summary{color:var(--accent-ink)}
-.faq .a{padding:0 4px 16px 30px;color:var(--muted);font-size:.95rem}
-.faq .a p{margin:0 0 .6em}
-
-footer{max-width:1180px;margin:0 auto;padding:24px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:999px;font-size:.85rem;opacity:0;transition:opacity .2s;pointer-events:none}
-.toast.show{opacity:1}
-@media (max-width:860px){
-  .layout{grid-template-columns:1fr;gap:28px;padding:24px 16px 60px}
-  .toc{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
-  .toc .eyebrow{width:100%}
-  .toc a{border-left:0;border:1px solid var(--line);border-radius:999px;padding:4px 10px}
-  .facts{grid-template-columns:1fr 1fr 1fr}
-  .brand h1{font-size:1.7rem}
-  .doc-meta{align-items:flex-start}
-}
-@media (max-width:480px){.facts{grid-template-columns:1fr}.cards{grid-template-columns:1fr}}
-"""
+CSS = (pathlib.Path(__file__).resolve().parent / 'guide_theme.css').read_text()
 
 JS = r"""
 (function(){
@@ -232,6 +74,10 @@ JS = r"""
     if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){show('복사했습니다')},function(){show('복사 실패 — 직접 선택해 복사하세요')}); }
     else { show('이 브라우저에서는 자동 복사가 안 됩니다'); }
   });
+
+  var boxes=Array.prototype.slice.call(document.querySelectorAll('.check input')), saved={};
+  try{ saved=JSON.parse(localStorage.getItem('nxt-guide-demo')||'{}'); }catch(e){}
+  boxes.forEach(function(b){ if(saved[b.id]) b.checked=true; b.addEventListener('change',function(){ saved[b.id]=b.checked; try{localStorage.setItem('nxt-guide-demo',JSON.stringify(saved));}catch(e){} }); });
 
   var links=document.querySelectorAll('.toc a'), secs=[];
   links.forEach(function(a){ var s=document.querySelector(a.getAttribute('href')); if(s) secs.push([s,a]); });
@@ -302,11 +148,12 @@ BODY = f'''
   <div class="eyebrow">목차</div>
   <a href="#s1"><b>1</b>무엇인가</a>
   <a href="#s2"><b>2</b>설치하기</a>
-  <a href="#s3"><b>3</b>첫 명령 실행</a>
-  <a href="#s4"><b>4</b>내 일에 맞는 명령</a>
-  <a href="#s5"><b>5</b>전문가 직접 부르기</a>
-  <a href="#s6"><b>6</b>자주 묻는 질문</a>
-  <a href="#s7"><b>7</b>문제 해결</a>
+  <a href="#s3"><b>3</b>샘플로 체험하기</a>
+  <a href="#s4"><b>4</b>첫 명령 실행</a>
+  <a href="#s5"><b>5</b>내 일에 맞는 명령</a>
+  <a href="#s6"><b>6</b>전문가 직접 부르기</a>
+  <a href="#s7"><b>7</b>자주 묻는 질문</a>
+  <a href="#s8"><b>8</b>문제 해결</a>
 </nav>
 
 <main>
@@ -320,17 +167,17 @@ BODY = f'''
   <div class="facts">
     <div class="fact"><b>{n_sk}</b><span>직업군 명령(스킬)</span></div>
     <div class="fact"><b>{n_ag}</b><span>전문가 에이전트</span></div>
-    <div class="fact"><b>3</b><span>쓸 수 있는 곳 · Claude Code, claude.ai, Kiro</span></div>
+    <div class="fact"><b>3</b><span>설치 지원 도구 · Claude Code, Codex, Kiro</span></div>
   </div>
 </section>
 
 <section id="s2">
   <div class="sec-head"><div class="num">02</div><h2>설치하기</h2></div>
-  <div class="prose"><p>쓰는 도구를 고르세요. 회사에서 계정을 받았다면 그 도구가 맞습니다. 터미널이 없거나 낯설면 <b>claude.ai 웹</b>이 가장 쉽습니다.</p></div>
+  <div class="prose"><p>쓰는 도구를 고르세요. 회사에서 계정을 받았다면 그 도구가 맞습니다. 세 도구 모두 설치 명령 한 줄이면 됩니다. 이 밖의 도구도 쓸 수 있으며 아래에 설명합니다.</p></div>
   <div data-tabs>
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" id="it-cc" aria-controls="ip-cc" aria-selected="true">Claude Code</button>
-      <button class="tab" role="tab" id="it-web" aria-controls="ip-web" aria-selected="false">claude.ai 웹</button>
+      <button class="tab" role="tab" id="it-codex" aria-controls="ip-codex" aria-selected="false">Codex</button>
       <button class="tab" role="tab" id="it-kiro" aria-controls="ip-kiro" aria-selected="false">AWS Kiro</button>
     </div>
     <div class="panel" id="ip-cc" role="tabpanel" aria-labelledby="it-cc">
@@ -342,15 +189,18 @@ BODY = f'''
       <div class="cmd-wrap"><pre class="cmd">git clone https://github.com/nxtcloud-edu/nxt-agency.git
 cd nxt-agency
 ./scripts/install.sh --tool claude-code</pre>{copy_btn("git clone https://github.com/nxtcloud-edu/nxt-agency.git && cd nxt-agency && ./scripts/install.sh --tool claude-code", cls="copy")}</div>
-      <div class="note">내 직업군 것만 넣으려면 <code>./scripts/install.sh --role 행정</code> 처럼 씁니다. 사업단 · 행정 · 교수·연구자 · 학생 중 하나를 고르면 그 명령들과 필요한 전문가만 설치됩니다.</div>
+      <div class="note">내 직업군 것만 넣으려면 <code>./scripts/install.sh --role admin</code> 처럼 씁니다. 직업군은 네 가지입니다: <code>project</code>(사업단), <code>admin</code>(행정), <code>research</code>(교수·연구자), <code>student</code>(학생). 고른 직업군의 명령과 거기에 필요한 전문가만 설치됩니다.</div>
     </div>
-    <div class="panel" id="ip-web" role="tabpanel" aria-labelledby="it-web" hidden>
+    <div class="panel" id="ip-codex" role="tabpanel" aria-labelledby="it-codex" hidden>
       <div class="step-list">
-        <div class="step"><div><h4>zip 파일 받기</h4><p>담당자에게 <code>dist/skills</code> 폴더의 zip 파일을 받습니다. 명령 하나가 zip 하나입니다. 직접 만들려면 레포에서 <code>./scripts/package-skills.sh</code>를 실행합니다.</p></div></div>
-        <div class="step"><div><h4>claude.ai에 올리기</h4><p>claude.ai 접속 → 설정 → 기능(Capabilities) → 스킬 → <b>스킬 추가</b> → zip 선택. 필요한 명령만 골라 올리면 됩니다.</p></div></div>
-        <div class="step"><div><h4>확인</h4><p>새 대화에서 <code>/meeting-minutes</code>라고 치거나, 그냥 "회의록 만들어줘"라고 말해도 알아서 해당 스킬을 씁니다.</p></div></div>
+        <div class="step"><div><h4>준비물</h4><p>Codex CLI 또는 Codex 앱이 설치되어 있고 로그인이 되어 있어야 합니다. 홈 폴더에 <code>.codex</code> 폴더가 있으면 준비된 것입니다.</p></div></div>
+        <div class="step"><div><h4>설치 명령 실행</h4><p>같은 설치 스크립트에 <code>--tool codex</code>를 붙입니다. 명령은 <code>~/.codex/skills</code>에 그대로 들어가고, 전문가는 Codex 커스텀 에이전트 형식(TOML)으로 바뀌어 <code>~/.codex/agents</code>에 들어갑니다.</p></div></div>
+        <div class="step"><div><h4>확인</h4><p>Codex에서 <code>/skills</code>를 치면 명령 목록이 보이고, <code>$meeting-minutes</code>처럼 <code>$</code>를 붙여 부릅니다. 전문가를 서브에이전트로 쓰려면 Codex 설정에서 멀티에이전트 기능을 켜야 합니다.</p></div></div>
       </div>
-      <div class="note">웹에는 전문가 에이전트가 따로 없지만, 각 명령 안에 전문가의 핵심 규칙과 서식이 들어 있어 혼자서도 같은 결과를 냅니다.</div>
+      <div class="cmd-wrap"><pre class="cmd">git clone https://github.com/nxtcloud-edu/nxt-agency.git
+cd nxt-agency
+./scripts/install.sh --tool codex</pre>{copy_btn("git clone https://github.com/nxtcloud-edu/nxt-agency.git && cd nxt-agency && ./scripts/install.sh --tool codex", cls="copy")}</div>
+      <div class="note">Codex는 명령을 <code>/</code>가 아니라 <code>$</code>로 부릅니다. <code>/meeting-minutes</code> 대신 <code>$meeting-minutes</code>라고 치세요.</div>
     </div>
     <div class="panel" id="ip-kiro" role="tabpanel" aria-labelledby="it-kiro" hidden>
       <div class="step-list">
@@ -364,10 +214,60 @@ cd nxt-agency
       <div class="note note--warn">Kiro는 버전에 따라 에이전트 형식이 바뀐 적이 있습니다. 명령은 보이는데 전문가가 안 보이면 담당자에게 알려 주세요. 명령만으로도 업무는 끝낼 수 있습니다.</div>
     </div>
   </div>
+  <div class="prose"><p><b>그 밖의 도구.</b> 명령은 Agent Skills 표준 형식이라 이를 지원하는 다른 도구에서도 쓸 수 있습니다. 예를 들어 claude.ai 웹은 설정 → 기능 → 스킬에서 zip을 올리면 되고, 다른 CLI는 스킬 폴더를 복사하면 됩니다. zip은 레포에서 <code>./scripts/package-skills.sh</code>로 만듭니다. 명령 안에 전문가의 규칙과 서식이 들어 있어 전문가 없이도 같은 결과를 냅니다.</p></div>
 </section>
 
 <section id="s3">
-  <div class="sec-head"><div class="num">03</div><h2>첫 명령 실행</h2></div>
+  <div class="sec-head"><div class="num">03</div><h2>샘플로 체험하기 · 데모 핸즈온</h2></div>
+  <div class="prose"><p>자기 자료를 넣기 부담스럽거나 무엇을 넣어야 할지 모르겠다면 여기서 시작하세요. 15분이면 명령 하나를 끝까지 경험할 수 있습니다. 모든 샘플은 가상 대학(한빛대학교)과 가상 인물의 자료입니다. 체크한 항목은 이 브라우저에 저장됩니다.</p></div>
+  <div class="step-list">
+    <div class="step"><div><h4>준비 확인 <span class="time-tag">1분</span></h4><p><code>/</code>(Codex는 <code>$</code>)를 쳤을 때 목록에 <code>nxt-demo</code>가 보이면 준비된 것입니다. 안 보이면 <a href="#s2">설치하기</a>로.</p>
+      <ul class="check"><li><input type="checkbox" id="d-0"><label for="d-0">명령 목록에 nxt-demo가 보인다</label></li></ul></div></div>
+    <div class="step"><div><h4>체험 명령 실행 <span class="time-tag">2분</span></h4><p>아래 한 줄을 치면 직업군별로 할 수 있는 일을 표로 보여 주고 하나를 고르게 합니다. 처음에는 <b>회의록</b>을 권합니다. 결과가 가장 직관적입니다.</p>
+      <div class="cmd-wrap"><pre class="cmd">/nxt-demo 회의록 샘플로 해 보자</pre>{copy_btn("/nxt-demo 회의록 샘플로 해 보자", cls="copy")}</div>
+      <ul class="check"><li><input type="checkbox" id="d-1"><label for="d-1">메뉴 표가 나오고 "자료 소개"(무슨 회의인지, 안건 3개에서 무엇이 오갔는지, 함정 2~3개)를 받았다. 이 소개가 있어야 결과를 평가할 수 있다</label></li></ul></div></div>
+    <div class="step"><div><h4>끝까지 진행하고 함정을 확인 <span class="time-tag">5분</span></h4><p>"시작할까요?"에 "네"라고 하면 회의록 정리원의 절차대로 진행합니다. 결과 아래 "이렇게 처리했습니다" 설명과 함께 다음 세 가지를 찾아보세요.</p>
+      <ul class="check">
+        <li><input type="checkbox" id="d-2"><label for="d-2">결정사항에는 참여기업 선정 의결만 있고, 이월·전용과 고교 캠프 예산은 미결사항으로 분리됐다</label></li>
+        <li><input type="checkbox" id="d-3"><label for="d-3">조치사항 표에서 동의서 양식 담당은 "미지정", 다음 회의 일자는 "미정"으로 남았다 (지어내지 않음)</label></li>
+        <li><input type="checkbox" id="d-4"><label for="d-4">복사기 잡담은 회의록에 들어가지 않았다</label></li>
+      </ul></div></div>
+    <div class="step"><div><h4>"내 자료로 하려면" 읽기 <span class="time-tag">2분</span></h4><p>결과 끝에 실제로 칠 명령, 준비할 자료, 지워야 할 개인정보가 세 줄로 나옵니다. 이것이 다음에 내 녹취록으로 할 때의 출발점입니다.</p>
+      <ul class="check"><li><input type="checkbox" id="d-5"><label for="d-5">세 줄 안내를 받았고, 내 자료 중 무엇을 붙여 넣을지 정했다</label></li></ul></div></div>
+    <div class="step"><div><h4>다른 샘플 하나 더 <span class="time-tag">5분</span></h4><p>이번엔 내 직업군의 것으로. "다른 것도 해 볼까요?"에 명령 이름을 답하면 됩니다. 아래 표에서 고르세요.</p>
+      <ul class="check"><li><input type="checkbox" id="d-6"><label for="d-6">내 직업군 명령 하나를 샘플로 끝까지 돌려 봤다</label></li></ul></div></div>
+  </div>
+  <div class="prose"><p><b>더 깊이.</b> 직업군별로 실제 업무 순서대로 명령 3~4개를 이어서 해 보는 핸즈온 시나리오가 따로 있습니다. 페르소나와 상황이 주어지고, 실습마다 확인 항목과 기대 결과가 있습니다.</p></div>
+  <div class="role-links">
+    <a href="handson/project.html" style="--rc:var(--r-project);--rs:var(--r-project-soft)"><b>사업단</b><span>집행 점검 → 행사 준비 → 성과보고 → 차년도 계획 · 90분</span></a>
+    <a href="handson/admin.html" style="--rc:var(--r-admin);--rs:var(--r-admin-soft)"><b>행정</b><span>회의록 → 문의 답변 → 동의서 → 처장 보고 · 60분</span></a>
+    <a href="handson/research.html" style="--rc:var(--r-research);--rs:var(--r-research-soft)"><b>교수·연구자</b><span>선행연구 → 연구계획서 → 강의계획서 · 75분</span></a>
+    <a href="handson/student.html" style="--rc:var(--r-student);--rs:var(--r-student-soft)"><b>학생</b><span>학기 계획 → 캡스톤 → 자기소개서 · 60분</span></a>
+  </div>
+  <div class="prose"><p><b>샘플에 넣어 둔 함정.</b> 담당자가 정해지지 않은 조치사항, 학부모가 자녀 성적을 묻는 문의, 목표에 못 미친 지표, 부풀리고 싶은 경험 같은 것들입니다. 명령이 이런 부분을 어떻게 처리하는지 보는 것이 체험의 핵심입니다.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>명령</th><th>샘플 데이터</th><th>들어 있는 함정</th></tr></thead>
+    <tbody>
+      <tr><td><code>/meeting-minutes</code></td><td>운영위원회 녹취록</td><td>결정과 논의가 섞임, 담당·기한 없는 조치사항, 일시·장소 누락</td></tr>
+      <tr><td><code>/report-summary</code></td><td>중간평가 자체보고서 요약본</td><td>수치가 많아 무엇을 남길지 골라야 함</td></tr>
+      <tr><td><code>/inquiry-reply</code></td><td>문의·민원 4건</td><td>학부모의 자녀 성적 문의, 감정적 공정성 민원</td></tr>
+      <tr><td><code>/consent-form</code></td><td>재학생 설문 계획</td><td>불필요한 수집 항목, 보관 기간 미정, 외부 제공</td></tr>
+      <tr><td><code>/business-plan</code></td><td>공고 요강 발췌 + 사업단 현황</td><td>평가지표에 맞춰 강점·약점을 배치해야 함</td></tr>
+      <tr><td><code>/performance-report</code></td><td>KPI 실적표 + 만족도</td><td>미달 지표의 원인과 개선 방향</td></tr>
+      <tr><td><code>/event-prep</code></td><td>성과발표회 개요</td><td>담당자·예산이 미정인 항목</td></tr>
+      <tr><td><code>/budget-check</code></td><td>세목별 집행 현황</td><td>집행 부진과 과집행, 미증빙 카드 건</td></tr>
+      <tr><td><code>/literature-review</code></td><td>주제 메모 + 가상 문헌 10편</td><td>설계 수준이 제각각, 같은 데이터를 재사용한 논문</td></tr>
+      <tr><td><code>/research-proposal</code></td><td>공고 발췌 + 연구자 프로필</td><td>배점표에 맞춘 계획서 구성</td></tr>
+      <tr><td><code>/syllabus</code></td><td>과목 개요 + 지난 강의평가</td><td>강의평가 불만을 CQI로 반영</td></tr>
+      <tr><td><code>/cover-letter</code></td><td>공공기관 공고 + 경험 목록</td><td>"부풀려도 될까?" 메모가 달린 경험</td></tr>
+      <tr><td><code>/semester-plan</code></td><td>학생 상황 메모</td><td>목표 대비 시간이 부족한 시간표</td></tr>
+      <tr><td><code>/capstone</code></td><td>아이디어 메모</td><td>기능 12개, 발표 2주 전, 코드 없음</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="s4">
+  <div class="sec-head"><div class="num">04</div><h2>첫 명령 실행</h2></div>
   <div class="prose"><p>가장 많이 쓰는 회의록 명령으로 흐름을 보겠습니다. 명령 뒤에 상황을 한 줄 적고, 그다음 자료를 붙여 넣으면 됩니다. 단계가 끝날 때마다 한 번 확인을 묻고, "끝까지"라고 하면 멈추지 않고 진행합니다.</p></div>
   <div class="chat">
     <div class="chat__bar">Claude Code · 예시 대화</div>
@@ -387,8 +287,8 @@ cd nxt-agency
   <div class="note">무엇을 써야 할지 모르겠으면 안내 데스크에게 물어보세요. 상황을 말하면 맞는 명령과 뒤에 붙일 말까지 만들어 줍니다.<br><code>안내 데스크, 나는 사업단 행정 담당인데 연차평가 성과보고서를 처음 써야 해. 어디부터 시작하면 돼?</code></div>
 </section>
 
-<section id="s4">
-  <div class="sec-head"><div class="num">04</div><h2>내 일에 맞는 명령</h2></div>
+<section id="s5">
+  <div class="sec-head"><div class="num">05</div><h2>내 일에 맞는 명령</h2></div>
   <div class="prose"><p>직업군을 고르면 그 일에 맞는 명령이 나옵니다. 예시 문장은 복사해서 그대로 쓰고, 괄호 안 내용만 내 상황으로 바꾸면 됩니다.</p></div>
   <div data-tabs>
     <div class="role-tabs" role="tablist">{role_tabs}</div>
@@ -396,32 +296,32 @@ cd nxt-agency
   </div>
 </section>
 
-<section id="s5">
-  <div class="sec-head"><div class="num">05</div><h2>전문가 직접 부르기</h2></div>
-  <div class="prose"><p>명령에 없는 일이거나 한 단계만 다시 하고 싶을 때는 전문가를 이름으로 부릅니다. "통계·연구설계 전문가로, …" 처럼 한글 이름을 앞에 붙이면 됩니다. Claude Code에서는 <code>@이름</code>으로도 부를 수 있습니다.</p></div>
+<section id="s6">
+  <div class="sec-head"><div class="num">06</div><h2>전문가 직접 부르기</h2></div>
+  <div class="prose"><p>명령에 없는 일이거나 한 단계만 다시 하고 싶을 때는 전문가를 이름으로 부릅니다. "통계·연구설계 전문가로, …" 처럼 한글 이름을 앞에 붙이면 됩니다. Claude Code에서는 <code>@이름</code>, Kiro에서는 <code>/agent</code>로도 고를 수 있습니다.</p></div>
   <div class="tbl-wrap"><table>
     <thead><tr><th>분야</th><th>전문가</th><th>이럴 때</th><th>예시 요청</th></tr></thead>
     <tbody>{agent_table}</tbody>
   </table></div>
 </section>
 
-<section id="s6">
-  <div class="sec-head"><div class="num">06</div><h2>자주 묻는 질문</h2></div>
+<section id="s7">
+  <div class="sec-head"><div class="num">07</div><h2>자주 묻는 질문</h2></div>
   <div class="faq">
-    <details><summary>한글로 <code>/회의록</code>이라고 치면 안 되나요?</summary><div class="a"><p>안 됩니다. Claude Code와 Kiro 모두 명령 이름은 영문만 허용합니다. 대신 <code>/</code>만 치면 목록이 뜨고, 웹에서는 "회의록 만들어줘"처럼 말로 해도 맞는 스킬을 찾아 씁니다.</p></div></details>
+    <details><summary>한글로 <code>/회의록</code>이라고 치면 안 되나요?</summary><div class="a"><p>안 됩니다. Claude Code, Codex, Kiro 모두 명령 이름은 영문만 허용합니다. 대신 <code>/</code>(Codex는 <code>$</code>)만 치면 목록이 뜨고, "회의록 만들어줘"처럼 말로 해도 맞는 스킬을 찾아 씁니다.</p></div></details>
     <details><summary>결과에 나온 법령·수치를 그대로 써도 되나요?</summary><div class="a"><p>확인 후에 쓰세요. 전문가들은 법령 조항 번호처럼 확실하지 않은 사실은 쓰지 않도록 만들어져 있지만, AI는 틀릴 수 있습니다. 규정·법령 검토관과 개인정보보호 담당관의 결과는 법률 자문이 아니며, 최종 판단은 법무·감사 부서와 확인해야 합니다.</p></div></details>
     <details><summary>학생 명단이나 연락처를 붙여 넣어도 되나요?</summary><div class="a"><p>가급적 넣지 마세요. 이름·학번·연락처·주민번호는 지운 뒤 붙여 넣고, 필요하면 "A학생"처럼 바꿔 쓰세요. 민원 답변 명령은 답변에 개인정보가 들어가지 않도록 점검하지만, 입력 단계에서 빼는 것이 가장 안전합니다.</p></div></details>
     <details><summary>한글(HWP) 파일로 받을 수 있나요?</summary><div class="a"><p>바로는 어렵습니다. 문서 생성기는 DOCX·PPTX·XLSX·PDF를 만듭니다. DOCX로 받은 뒤 한컴오피스에서 열어 HWP로 저장하면 됩니다. 서식이 어긋나면 표 부분만 다시 잡아 주세요.</p></div></details>
-    <details><summary>웹에서 쓰는데 "전문가가 없다"고 나옵니다.</summary><div class="a"><p>정상입니다. claude.ai 웹에는 전문가 에이전트를 따로 설치할 수 없어, 각 명령이 전문가의 규칙과 서식을 안에 품고 혼자 동작합니다. 결과 품질은 같습니다.</p></div></details>
-    <details><summary>명령을 몇 개만 골라 쓰고 싶어요.</summary><div class="a"><p>설치할 때 <code>--role 학생</code>(직업군) 또는 <code>--skill cover-letter</code>(명령 하나)를 붙이면 그것과 거기에 필요한 전문가만 들어갑니다. 웹은 zip을 골라 올리면 됩니다.</p></div></details>
+    <details><summary>다른 도구에서 쓰는데 "전문가가 없다"고 나옵니다.</summary><div class="a"><p>정상입니다. claude.ai 웹처럼 전문가 에이전트를 따로 설치할 수 없는 도구에서는 각 명령이 전문가의 규칙과 서식을 안에 품고 혼자 동작합니다. 결과 품질은 같습니다.</p></div></details>
+    <details><summary>명령을 몇 개만 골라 쓰고 싶어요.</summary><div class="a"><p>설치할 때 <code>--role student</code>(직업군) 또는 <code>--skill cover-letter</code>(명령 하나)를 붙이면 그것과 거기에 필요한 전문가만 들어갑니다. 웹은 zip을 골라 올리면 됩니다.</p></div></details>
   </div>
 </section>
 
-<section id="s7">
-  <div class="sec-head"><div class="num">07</div><h2>문제 해결</h2></div>
+<section id="s8">
+  <div class="sec-head"><div class="num">08</div><h2>문제 해결</h2></div>
   <div class="step-list">
-    <div class="step"><div><h4>명령이 목록에 안 보여요</h4><p>도구를 완전히 닫고 다시 여세요. 그래도 없으면 설치 위치를 확인합니다: Claude Code는 <code>~/.claude/skills</code>, Kiro는 <code>~/.kiro/skills</code> 아래에 명령 이름 폴더가 있어야 합니다.</p></div></div>
-    <div class="step"><div><h4>설치 스크립트가 "선택된 항목이 없습니다"라고 해요</h4><p><code>--role</code>이나 <code>--skill</code> 뒤의 이름이 틀린 경우입니다. <code>./scripts/install.sh --list</code>로 정확한 이름을 확인하세요. 직업군은 사업단 · 행정 · 교수·연구자 · 학생 네 가지입니다.</p></div></div>
+    <div class="step"><div><h4>명령이 목록에 안 보여요</h4><p>도구를 완전히 닫고 다시 여세요. 그래도 없으면 설치 위치를 확인합니다: Claude Code는 <code>~/.claude/skills</code>, Codex는 <code>~/.codex/skills</code>, Kiro는 <code>~/.kiro/skills</code> 아래에 명령 이름 폴더가 있어야 합니다.</p></div></div>
+    <div class="step"><div><h4>설치 스크립트가 "선택된 항목이 없습니다"라고 해요</h4><p><code>--role</code>이나 <code>--skill</code> 뒤의 이름이 틀린 경우입니다. <code>./scripts/install.sh --list</code>로 정확한 이름을 확인하세요. 직업군 값은 <code>project</code> <code>admin</code> <code>research</code> <code>student</code> 네 가지입니다.</p></div></div>
     <div class="step"><div><h4>최신 버전으로 바꾸고 싶어요</h4><p>레포 폴더에서 <code>git pull</code> 후 설치 명령을 다시 실행하면 덮어씁니다. 지우려면 <code>./scripts/install.sh --uninstall</code>. 이 레포에서 설치한 것만 지우고 다른 파일은 건드리지 않습니다.</p></div></div>
     <div class="step"><div><h4>결과가 이상해요</h4><p>대부분 입력 자료가 부족한 경우입니다. 명령이 물어본 질문에 답을 채우고, 자료를 더 붙여 넣어 보세요. 그래도 이상하면 담당자에게 어떤 명령에 무엇을 넣었는지 알려 주세요.</p></div></div>
   </div>

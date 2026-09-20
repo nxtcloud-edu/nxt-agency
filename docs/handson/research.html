@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교수·연구자 핸즈온 · nxt-agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>:root{
+  --paper:#F6F7F4; --panel:#ECEEE8; --panel-2:#E2E5DD; --ink:#1C2530; --muted:#5A6470; --line:#D3D8CF;
+  --accent:#2B5C8A; --accent-ink:#1E4468; --accent-soft:#DCE7F1; --seal:#B23A2E;
+  --r-project:#8A4B1F; --r-project-soft:#F1E3D6; --r-admin:#2B5C8A; --r-admin-soft:#DCE7F1;
+  --r-research:#5B3E8C; --r-research-soft:#E6DEF3; --r-student:#2E7D5B; --r-student-soft:#DAEEE3;
+  --code-bg:#1E2630; --code-ink:#E8ECE6;
+  --font-display:"Nanum Myeongjo","Apple SD Gothic Neo","Malgun Gothic",serif;
+  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --radius:4px; --shadow:0 1px 2px rgba(28,37,48,.06);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#141A20; --panel:#1B222A; --panel-2:#232C36; --ink:#E6E9E4; --muted:#9AA4AE; --line:#2E3742;
+    --accent:#7FB0DC; --accent-ink:#A9CCEC; --accent-soft:#1F3347; --seal:#E0665A;
+    --r-project:#D9A47A; --r-project-soft:#3A2A1E; --r-admin:#7FB0DC; --r-admin-soft:#1F3347;
+    --r-research:#B49BE0; --r-research-soft:#2E2540; --r-student:#7FC7A3; --r-student-soft:#1E3A2C;
+    --code-bg:#0F141A; --code-ink:#DDE3DC; --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141A20; --panel:#1B222A; --panel-2:#232C36; --ink:#E6E9E4; --muted:#9AA4AE; --line:#2E3742;
+  --accent:#7FB0DC; --accent-ink:#A9CCEC; --accent-soft:#1F3347; --seal:#E0665A;
+  --r-project:#D9A47A; --r-project-soft:#3A2A1E; --r-admin:#7FB0DC; --r-admin-soft:#1F3347;
+  --r-research:#B49BE0; --r-research-soft:#2E2540; --r-student:#7FC7A3; --r-student-soft:#1E3A2C;
+  --code-bg:#0F141A; --code-ink:#DDE3DC; --shadow:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+code,kbd{font-family:var(--font-mono);font-size:.92em}
+p code{background:var(--panel);padding:.1em .35em;border-radius:var(--radius)}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.75rem;letter-spacing:-.01em}
+h3{font-size:1.2rem}
+.eyebrow{font-family:var(--font-body);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+.masthead{border-bottom:1px solid var(--line);background:var(--paper)}
+.masthead__in{max-width:1180px;margin:0 auto;padding:22px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:6px}
+.brand h1{font-size:2.1rem}
+.brand .sub{color:var(--muted);font-size:.95rem;max-width:56ch}
+.doc-meta{display:flex;flex-direction:column;align-items:flex-end;gap:8px;font-size:.8rem;color:var(--muted);font-family:var(--font-mono)}
+.stamp{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--seal);color:var(--seal);border-radius:50%;font-family:var(--font-display);font-weight:700;font-size:.95rem;letter-spacing:.05em;transform:rotate(-8deg);opacity:.85;line-height:1.1;text-align:center}
+.theme-btn{font:inherit;font-size:.8rem;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:5px 10px;border-radius:999px;cursor:pointer}
+.theme-btn:hover{border-color:var(--accent)}
+
+.layout{max-width:1180px;margin:0 auto;padding:32px 24px 80px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px}
+.toc{position:sticky;top:20px;align-self:start;display:flex;flex-direction:column;gap:4px;font-size:.9rem}
+.toc .eyebrow{margin-bottom:8px}
+.toc a{color:var(--muted);text-decoration:none;padding:5px 10px;border-left:2px solid var(--line);display:flex;gap:10px}
+.toc a b{font-family:var(--font-mono);font-weight:500;color:var(--muted);min-width:1.4em}
+.toc a:hover,.toc a.is-active{color:var(--ink);border-left-color:var(--accent)}
+main{display:flex;flex-direction:column;gap:64px;min-width:0}
+section{display:flex;flex-direction:column;gap:20px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head .num{font-family:var(--font-mono);color:var(--seal);font-size:.85rem}
+.prose{max-width:68ch}
+.prose p{margin:0 0 .9em}
+.prose ul,.prose ol{margin:0 0 .9em;padding-left:1.3em}
+.prose li{margin:.25em 0}
+
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:640px}
+.fact{background:var(--paper);padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.fact b{font-family:var(--font-display);font-size:1.9rem;font-variant-numeric:tabular-nums;line-height:1.1}
+.fact span{font-size:.85rem;color:var(--muted)}
+
+[data-tabs]{display:flex;flex-direction:column;gap:20px}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tab{font:inherit;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:10px 16px;color:var(--muted);cursor:pointer;font-weight:500}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.panel{display:flex;flex-direction:column;gap:16px}
+.panel[hidden]{display:none}
+
+.step-list{display:flex;flex-direction:column;gap:14px;counter-reset:step;max-width:720px}
+.step{display:grid;grid-template-columns:32px minmax(0,1fr);gap:14px;align-items:start}
+.step::before{counter-increment:step;content:counter(step);width:28px;height:28px;border:1px solid var(--accent);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.85rem;margin-top:3px}
+.step h4{font-family:var(--font-body);font-weight:600;font-size:1rem;margin-bottom:4px}
+.step p{margin:0;color:var(--muted);font-size:.95rem}
+.note{border-left:3px solid var(--accent);background:var(--panel);padding:12px 16px;font-size:.95rem;max-width:720px}
+.note--warn{border-left-color:var(--seal)}
+
+pre.cmd{background:var(--code-bg);color:var(--code-ink);font-family:var(--font-mono);font-size:.88rem;line-height:1.6;padding:14px 72px 14px 16px;margin:0;border-radius:var(--radius);overflow-x:auto;position:relative;max-width:720px}
+pre.cmd .c{color:#8A97A5}
+.cmd-wrap{position:relative;max-width:720px}
+.copy{position:absolute;top:8px;right:8px;font:inherit;font-size:.75rem;background:rgba(255,255,255,.08);color:var(--code-ink);border:1px solid rgba(255,255,255,.18);padding:3px 9px;border-radius:999px;cursor:pointer}
+.copy:hover{background:rgba(255,255,255,.16)}
+
+.chat{max-width:720px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.93rem}
+.chat__bar{background:var(--panel);padding:8px 14px;font-family:var(--font-mono);font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--line)}
+.chat__body{display:flex;flex-direction:column;gap:12px;padding:16px}
+.msg{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start}
+.msg .who{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:4px;font-family:var(--font-mono)}
+.msg .bubble{background:var(--panel);padding:10px 14px;border-radius:var(--radius);white-space:pre-wrap}
+.msg--me .bubble{background:var(--accent-soft);font-family:var(--font-mono);font-size:.88rem}
+
+.role-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.role-tab{font:inherit;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:0;line-height:1.3;text-align:left}
+.role-tab small{color:var(--muted);font-size:.75rem}
+.role-tab[aria-selected="true"]{border-color:var(--rc);background:var(--rs)}
+.role-tab[aria-selected="true"] b{color:var(--rc)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.card__head{padding:14px 16px 10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.card__head .cmdname{font-family:var(--font-mono);color:var(--rc);font-weight:600;font-size:1.05rem}
+.card__head h3{font-family:var(--font-body);font-weight:600;font-size:1rem}
+.card__body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px;font-size:.92rem;flex:1}
+.card__body p{margin:0;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.8rem}
+.flow span{background:var(--rs);color:var(--rc);padding:2px 8px;border-radius:3px;white-space:nowrap}
+.flow i{color:var(--muted);font-style:normal}
+.ex{display:flex;flex-direction:column;gap:6px;margin-top:auto}
+.ex .eyebrow{font-size:.68rem}
+.exline{display:flex;gap:8px;align-items:flex-start;background:var(--panel);border-radius:3px;padding:6px 8px 6px 10px;font-family:var(--font-mono);font-size:.8rem;line-height:1.45}
+.exline span{flex:1;min-width:0;word-break:break-all}
+.exline button{font:inherit;font-size:.7rem;border:1px solid var(--line);background:var(--paper);color:var(--muted);padding:1px 7px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.exline button:hover{color:var(--ink);border-color:var(--accent)}
+.uses{font-size:.8rem;color:var(--muted)}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:640px}
+th{text-align:left;font-weight:600;font-size:.78rem;letter-spacing:.06em;color:var(--muted);background:var(--panel);padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.div{font-weight:600;white-space:nowrap}
+td .nm{font-family:var(--font-mono);font-size:.8rem;color:var(--muted)}
+td .ask{font-size:.82rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+td .ask button{font:inherit;font-size:.7rem;border:1px solid var(--line);background:var(--paper);color:var(--muted);padding:0 7px;border-radius:999px;cursor:pointer;white-space:nowrap}
+td .ask button:hover{color:var(--ink);border-color:var(--accent)}
+
+.faq{display:flex;flex-direction:column;gap:0;max-width:760px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;padding:14px 4px;font-weight:600;list-style:none;display:flex;gap:12px;align-items:baseline}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"Q";font-family:var(--font-mono);color:var(--seal);font-weight:500}
+.faq details[open] summary{color:var(--accent-ink)}
+.faq .a{padding:0 4px 16px 30px;color:var(--muted);font-size:.95rem}
+.faq .a p{margin:0 0 .6em}
+
+footer{max-width:1180px;margin:0 auto;padding:24px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:999px;font-size:.85rem;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr;gap:28px;padding:24px 16px 60px}
+  .toc{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .toc .eyebrow{width:100%}
+  .toc a{border-left:0;border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+  .facts{grid-template-columns:1fr 1fr 1fr}
+  .brand h1{font-size:1.7rem}
+  .doc-meta{align-items:flex-start}
+}
+@media (max-width:480px){.facts{grid-template-columns:1fr}.cards{grid-template-columns:1fr}}
+
+.time-tag{font-family:var(--font-mono);font-weight:400;font-size:.75rem;color:var(--muted);margin-left:8px}
+.check{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.check li{display:flex;gap:10px;align-items:flex-start;font-size:.92rem}
+.check input{margin-top:5px;accent-color:var(--accent)}
+.check label{cursor:pointer}
+.check input:checked + label{color:var(--muted);text-decoration:line-through}
+.role-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.role-links a{border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;background:var(--paper)}
+.role-links a b{color:var(--rc)}
+.role-links a span{font-size:.82rem;color:var(--muted)}
+.role-links a:hover{border-color:var(--rc);background:var(--rs)}
+
+.hero{border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start;background:var(--panel)}
+.hero .persona{font-family:var(--font-display);font-size:1.25rem;margin-bottom:6px}
+.hero .situation{color:var(--muted);max-width:66ch;margin:0}
+.hero .meta{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--muted);font-family:var(--font-mono);text-align:right;white-space:nowrap}
+.hero .meta b{font-family:var(--font-display);font-size:1.6rem;color:var(--ink);display:block;line-height:1.1}
+.progress{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;font-size:.85rem;color:var(--muted)}
+.progress .bar{flex:1;height:6px;background:var(--panel-2);border-radius:999px;overflow:hidden}
+.progress .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.progress button{font:inherit;font-size:.75rem;border:1px solid var(--line);background:var(--paper);color:var(--muted);padding:3px 9px;border-radius:999px;cursor:pointer}
+.lab{border:1px solid var(--line);border-radius:var(--radius);display:grid;grid-template-columns:56px minmax(0,1fr);overflow:hidden}
+.lab__no{background:var(--rs);color:var(--rc);font-family:var(--font-display);font-size:1.4rem;display:flex;align-items:flex-start;justify-content:center;padding-top:18px}
+.lab__body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.lab__head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.lab__head h3{font-family:var(--font-body);font-weight:600;font-size:1.15rem}
+.lab__head .cmdname{font-family:var(--font-mono);color:var(--rc);font-weight:600}
+.lab__head .time{font-family:var(--font-mono);font-size:.8rem;color:var(--muted)}
+.lab .story{margin:0;color:var(--muted);font-size:.95rem}
+.lab .goal{margin:0;font-weight:500}
+.block{display:flex;flex-direction:column;gap:8px}
+.block .eyebrow{font-size:.7rem}
+.files{margin:0;padding-left:1.2em;font-size:.92rem}
+.files code{font-size:.85em}
+.content{margin:0;font-size:.92rem;background:var(--panel);padding:10px 14px;border-radius:var(--radius)}
+.content b{color:var(--rc);display:block;margin-bottom:4px;font-size:.8rem;letter-spacing:.04em}
+.content ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:2px}
+.expect{border-left:3px solid var(--rc);background:var(--panel);padding:10px 14px;font-size:.92rem;margin:0}
+.apply{font-size:.9rem;color:var(--muted);margin:0}
+.apply b{color:var(--ink)}
+.done{border:1px dashed var(--line);border-radius:var(--radius);padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.role-nav{display:flex;gap:8px;flex-wrap:wrap;font-size:.85rem}
+.role-nav a{border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;color:var(--muted)}
+.role-nav a.is-here{border-color:var(--rc);color:var(--rc);background:var(--rs)}
+@media (max-width:700px){.hero{grid-template-columns:1fr}.hero .meta{text-align:left}.lab{grid-template-columns:40px minmax(0,1fr)}.lab__body{padding:14px}}
+@media print{.progress,.theme-btn,.copy,.exline button{display:none!important}.lab{break-inside:avoid}}
+</style>
+</head>
+<body data-role="research">
+<header class="masthead">
+  <div class="masthead__in">
+    <div class="brand">
+      <div class="eyebrow">nxt-agency · 핸즈온 시나리오</div>
+      <h1>교수·연구자 핸즈온</h1>
+      <div class="sub">교수·연구자 담당자가 실제 업무 순서대로 명령 3개를 샘플 데이터로 따라 해 봅니다. 체크한 항목은 이 브라우저에 저장됩니다.</div>
+    </div>
+    <div class="doc-meta">
+      <div class="stamp">실습</div>
+      <div><a href="../guide.html">사용 안내로</a></div>
+      <button class="theme-btn" id="theme-btn" type="button">☾ 어둡게</button>
+    </div>
+  </div>
+</header>
+<div class="layout" style="grid-template-columns:1fr;max-width:920px">
+<main style="--rc:var(--r-research);--rs:var(--r-research-soft);gap:28px">
+  <nav class="role-nav" aria-label="직업군 선택"><a href="project.html" class="">사업단</a><a href="admin.html" class="">행정</a><a href="research.html" class="is-here">교수·연구자</a><a href="student.html" class="">학생</a></nav>
+  <section class="hero">
+    <div><div class="eyebrow">페르소나</div><div class="persona">김서연 교수 · 한빛대학교 경영학과</div><p class="situation">학기 초. 한국연구재단 중견연구 공고 마감이 3주 남았고, 지도 중인 석사생은 2장 문헌고찰이 막혀 있다. 지난 학기 강의평가가 좋지 않았던 전공 과목도 이번 학기에 손봐야 한다. 연구실에서 오후 내내 세 가지를 차례로 돌린다.</p></div>
+    <div class="meta"><span><b>75분</b>총 소요</span><span>/literature-review → /research-proposal → /syllabus</span></div>
+  </section>
+  <div class="progress"><span>진행률</span><div class="bar"><i></i></div><span id="progress-text">0 / 0 확인</span><button type="button" id="reset">초기화</button></div>
+  <div class="note">시작 전 확인: 설치가 되어 있어야 합니다. <code>/</code>(Codex는 <code>$</code>)를 쳤을 때 <code>nxt-demo</code>가 목록에 보이면 준비된 것입니다. 샘플 파일은 레포의 <code>skills/nxt-demo/samples/</code> 또는 설치된 스킬 폴더 안에 있습니다. 붙여 넣기가 번거로우면 <code>/nxt-demo</code>에게 "literature-review 샘플로 해 줘"라고 해도 됩니다.</div>
+  
+<article class="lab" id="lab-1">
+  <div class="lab__no">1</div>
+  <div class="lab__body">
+    <div class="lab__head"><h3>학생의 선행연구 정리를 같이 본다</h3><span class="cmdname">/literature-review · 선행연구 정리</span><span class="time">약 25분</span></div>
+    <p class="story">같은 데이터를 재사용한 논문 두 편이 근거 하나로 묶이는지 본다.</p>
+    <p class="goal">지도교수 코멘트가 붙은 주제 메모와 후보 문헌 10편을 넣어, 검색 전략서 → 근거 수준이 매겨진 정리표 → 연구 공백·설계 시사점까지 한 번에 뽑아 봅니다. 같은 데이터를 재사용한 논문 2편, 종단 연구와 횡단 연구의 불일치, 학위논문·개념이 다른 논문의 포함 여부를 스킬이 어떻게 처리하는지가 핵심입니다.</p>
+    <div class="block"><div class="eyebrow">준비 · 샘플 파일 (skills/nxt-demo/samples/literature-review/)</div><ul class="files"></ul><div class="content"><b>자료에 들어 있는 것</b><ul><li>석사 2학기 학생의 주제 메모: 진로결정 자기효능감 → 취업준비행동</li><li>연구질문 초안 3개(예측, 학년 차이, 진로장벽 매개)와 지도교수 코멘트 5개</li><li>가상 후보 문헌 10편: 메타분석 1, 종단 1, 질적 1, 준실험 1, 학위논문 1, 횡단 5</li><li>각 문헌의 설계·표본·측정·핵심 결과(β, r, CI) 정리</li><li>1차 선별 후 남은 고민 5가지(척도 불일치, 횡단 자료 해석 등)</li></ul></div></div>
+    <div class="block"><div class="eyebrow">실행</div>
+      <div class="cmd-wrap"><pre class="cmd">/literature-review 대학생 진로결정 자기효능감과 취업준비행동, 석사논문 2장, 국내외 최근 10년. 아래 자료를 붙여 넣습니다.</pre><button type="button" class="copy" data-copy="/literature-review 대학생 진로결정 자기효능감과 취업준비행동, 석사논문 2장, 국내외 최근 10년. 아래 자료를 붙여 넣습니다.">복사</button></div><p class="apply">그 뒤에 topic-brief.md 전체를 먼저 붙이고, 이어서 candidate-sources.md 전체를 붙여 넣으면 됩니다.</p></div>
+    <div class="block"><div class="eyebrow">진행하며 확인</div><ul class="check"><li><input type="checkbox" id="research-1-0"><label for="research-1-0">명령이 먼저 물어본 것에 답했다: 연구 주제와 연구질문은 무엇인가요? 대상(누구·무엇), 비교하거나 개입하는 것, 보려는 결과를 한 문장씩 알려주세요.</label></li><li><input type="checkbox" id="research-1-1"><label for="research-1-1">명령이 먼저 물어본 것에 답했다: 검색 범위는 어디까지인가요? 국문·영문 여부, 기간, 데이터베이스.</label></li><li><input type="checkbox" id="research-1-2"><label for="research-1-2">명령이 먼저 물어본 것에 답했다: 이 정리를 어디에 쓰나요? 학위논문 2장, 연구계획서 배경, 학술지 논문 서론, 동향 보고.</label></li><li><input type="checkbox" id="research-1-3"><label for="research-1-3">주제·범위 확정 결과를 받았다 (담당 전문가: 문헌조사 전문가)</label></li><li><input type="checkbox" id="research-1-4"><label for="research-1-4">선행연구 정리표(근거 수준 포함) 결과를 받았다 (담당 전문가: 문헌조사 전문가)</label></li><li><input type="checkbox" id="research-1-5"><label for="research-1-5">연구 공백·설계 시사점 결과를 받았다 (담당 전문가: 문헌조사 전문가)</label></li><li><input type="checkbox" id="research-1-6"><label for="research-1-6">&quot;여기까지 확인하시겠어요?&quot;에서 멈추거나 &quot;끝까지&quot;로 진행했다</label></li><li><input type="checkbox" id="research-1-7"><label for="research-1-7">결과에 지어낸 사실이 없는지, 빈 값이 &quot;[확인 필요]&quot;로 남았는지 봤다</label></li></ul></div>
+    <div class="block"><div class="eyebrow">기대 결과</div><p class="expect">대상/비교/결과로 구조화된 연구질문과 포함·배제 기준이 담긴 검색 전략서. 10편의 근거 등급·방법의 질·독립성·약한 고리를 매긴 정리표(1번과 3번은 같은 데이터로 표시). &quot;잘 확립됨 / 논쟁 중 / 단일 연구뿐 / 근거 공백&quot;으로 나눈 종합 지도와, 종단 연구의 역인과 결과를 반영한 설계 시사점.</p></div>
+    <p class="apply"><b>내 자료로 하려면.</b> 연구 주제와 검색 범위만 알려 줘도 시작됩니다. 이미 모은 문헌이 있으면 저자·연도·제목·설계를 목록으로 붙여 넣으세요.</p>
+  </div>
+</article>
+<article class="lab" id="lab-2">
+  <div class="lab__no">2</div>
+  <div class="lab__body">
+    <div class="lab__head"><h3>공고 분석부터 계획서 초안까지</h3><span class="cmdname">/research-proposal · 연구계획서 작성</span><span class="time">약 30분</span></div>
+    <p class="story">배점표에 맞춰 계획서 목차를 짜고 예산 세목을 채운다.</p>
+    <p class="goal">가상 중견연구 공고 발췌와 연구책임자 프로필 메모를 넣어, 공고 분석·평가지표 대응표 → 필요성 근거 메모 → 계획서 초안 → 세목별 예산까지 진행해 봅니다. 지원 자격 충족 여부가 애매한 지점, 유형 선택 미정, 데이터 2차 활용 동의 미확인 같은 빈 칸을 스킬이 [기재 필요]·&quot;확인 필요&quot;로 남기는지가 핵심입니다.</p>
+    <div class="block"><div class="eyebrow">준비 · 샘플 파일 (skills/nxt-demo/samples/research-proposal/)</div><ul class="files"></ul><div class="content"><b>자료에 들어 있는 것</b><ul><li>한국연구재단 가상 중견연구 공고: 유형별 연 1억~2억, 3년(1+2), 11월 6일 마감</li><li>지원 자격: 박사 후 5년 이상, 최근 5년 주저자 SCIE·SCOPUS 5편 이상</li><li>평가 배점 100(창의성 25, 구체성 25, 역량 20, 활용 15, 지역 기여 10, 예산 5)</li><li>연구자 프로필: 비수도권 부교수, SCIE 4편·KCI 5편, GPU 서버, 민원 텍스트 3만 건</li><li>아이디어: 소형 언어모델로 지역 공공 문서 구조화. 유형·인원·IRB 등 5가지 미정</li></ul></div></div>
+    <div class="block"><div class="eyebrow">실행</div>
+      <div class="cmd-wrap"><pre class="cmd">/research-proposal 한국연구재단 중견연구 2027년 공고, 주제는 소형 언어모델 기반 지역 공공 문서 구조화, 3년. 아래 자료를 붙여 넣습니다.</pre><button type="button" class="copy" data-copy="/research-proposal 한국연구재단 중견연구 2027년 공고, 주제는 소형 언어모델 기반 지역 공공 문서 구조화, 3년. 아래 자료를 붙여 넣습니다.">복사</button></div><p class="apply">그 뒤에 call-excerpt.md를 먼저 붙이고, 이어서 pi-profile.md를 붙여 넣으면 됩니다.</p></div>
+    <div class="block"><div class="eyebrow">진행하며 확인</div><ul class="check"><li><input type="checkbox" id="research-2-0"><label for="research-2-0">명령이 먼저 물어본 것에 답했다: 어떤 공고인가요? 공고문 파일이나 링크, 없으면 사업명·주관기관·마감일을 알려주세요.</label></li><li><input type="checkbox" id="research-2-1"><label for="research-2-1">명령이 먼저 물어본 것에 답했다: 연구 주제와 연구진의 관련 실적은 무엇인가요? 최근 5년 논문·과제·보유 장비를 아는 만큼만.</label></li><li><input type="checkbox" id="research-2-2"><label for="research-2-2">명령이 먼저 물어본 것에 답했다: 총 연구비 규모와 기간, 참여 인력 구성은 어느 정도인가요?</label></li><li><input type="checkbox" id="research-2-3"><label for="research-2-3">공고 분석(평가지표) 결과를 받았다 (담당 전문가: 연구과제·사업 제안서 작성가)</label></li><li><input type="checkbox" id="research-2-4"><label for="research-2-4">연구 필요성 근거 결과를 받았다 (담당 전문가: 연구·산업 동향 조사원)</label></li><li><input type="checkbox" id="research-2-5"><label for="research-2-5">계획서 초안 결과를 받았다 (담당 전문가: 연구과제·사업 제안서 작성가)</label></li><li><input type="checkbox" id="research-2-6"><label for="research-2-6">세목별 예산 결과를 받았다 (담당 전문가: 연구과제·사업 제안서 작성가)</label></li><li><input type="checkbox" id="research-2-7"><label for="research-2-7">&quot;여기까지 확인하시겠어요?&quot;에서 멈추거나 &quot;끝까지&quot;로 진행했다</label></li><li><input type="checkbox" id="research-2-8"><label for="research-2-8">결과에 지어낸 사실이 없는지, 빈 값이 &quot;[확인 필요]&quot;로 남았는지 봤다</label></li></ul></div>
+    <div class="block"><div class="eyebrow">기대 결과</div><p class="expect">배점 100점을 항목별로 옮긴 평가지표 대응표와 지원/보류 판단, 자격 요건 중 확인이 필요한 항목 표시. 공고 표현으로 다시 쓴 계획서 초안(20쪽 제한과 블라인드 규칙 반영, 빈 칸은 [기재 필요]). 참여율·간접비 상한(25%)·연구수당 상한을 반영한 연차별 예산표와 산출 근거, 제출 전 점검표.</p></div>
+    <p class="apply"><b>내 자료로 하려면.</b> 공고문 PDF의 평가 항목·배점 표와 제출 서류 목록을 복사해 붙여 넣으세요. 내 실적은 최근 5년 요약이면 됩니다.</p>
+  </div>
+</article>
+<article class="lab" id="lab-3">
+  <div class="lab__no">3</div>
+  <div class="lab__body">
+    <div class="lab__head"><h3>강의평가를 반영해 강의계획서를 다시 짠다</h3><span class="cmdname">/syllabus · 강의계획서 작성</span><span class="time">약 20분</span></div>
+    <p class="story">자유응답의 불만이 주차별 계획과 평가 기준에 실제로 반영되는지 본다.</p>
+    <p class="goal">과목 개요와 지난 학기 강의평가(문항별 평균 + 자유응답 15건)를 넣어, 측정 가능한 학습성과 → 역량 연계 주차별 계획 → 평가 계획·루브릭·CQI 반영 사항까지 만들어 봅니다. 응답률을 먼저 밝히고 자유응답을 주제별 건수로 묶는지, 낮은 문항(과제 양·평가 기준·실습)과 자유응답을 연결해 개선 사항 3가지를 뽑는지, 실습실 좌석 부족·선수과목 미이수 학생 같은 제약을 계획에 반영하는지가 핵심입니다.</p>
+    <div class="block"><div class="eyebrow">준비 · 샘플 파일 (skills/nxt-demo/samples/syllabus/)</div><ul class="files"></ul><div class="content"><b>자료에 들어 있는 것</b><ul><li>3학년 전공선택 &#x27;데이터 분석 기초&#x27; 3학점 15주, 예상 45명, 실습실 40석</li><li>수강생: 통계 기초 약함, 프로그래밍 경험 거의 없음, 선수과목 미이수 20%</li><li>전공역량 3개 반영 비율: 문제해결 40, 데이터활용 40, 의사소통 20</li><li>강의평가 31/48명 응답, 전체 3.47(학과 평균 4.12), 과제 양·평가 기준·실습 최저</li><li>자유응답 15건(과제 과다, 실습 부족, 기준 불명확)과 CQI 위원회 요구 사항</li></ul></div></div>
+    <div class="block"><div class="eyebrow">실행</div>
+      <div class="cmd-wrap"><pre class="cmd">/syllabus 3학년 전공선택 &#x27;데이터 분석 기초&#x27; 3학점 15주, 전공역량 문제해결·데이터활용·의사소통 연계, 지난 학기 강의평가 반영해서 다시 짜줘. 아래 자료를 붙여 넣습니다.</pre><button type="button" class="copy" data-copy="/syllabus 3학년 전공선택 &#x27;데이터 분석 기초&#x27; 3학점 15주, 전공역량 문제해결·데이터활용·의사소통 연계, 지난 학기 강의평가 반영해서 다시 짜줘. 아래 자료를 붙여 넣습니다.">복사</button></div><p class="apply">그 뒤에 course-brief.md를 먼저 붙이고, 이어서 last-eval.md를 붙여 넣으면 됩니다.</p></div>
+    <div class="block"><div class="eyebrow">진행하며 확인</div><ul class="check"><li><input type="checkbox" id="research-3-0"><label for="research-3-0">명령이 먼저 물어본 것에 답했다: 교과목 정보를 알려주세요. 과목명, 학점·시수, 이수구분(전공필수·전공선택·교양), 대상 학년, 선수과목.</label></li><li><input type="checkbox" id="research-3-1"><label for="research-3-1">명령이 먼저 물어본 것에 답했다: 연계할 역량이 있나요? 학과 전공역량·대학 핵심역량 명칭과 반영 비율, 공학교육인증 학습성과 여부.</label></li><li><input type="checkbox" id="research-3-2"><label for="research-3-2">명령이 먼저 물어본 것에 답했다: 지난 학기 강의평가나 학습성과 달성도 자료가 있나요? 있으면 붙여 주세요.</label></li><li><input type="checkbox" id="research-3-3"><label for="research-3-3">학습성과·대상 확인 결과를 받았다 (담당 전문가: 교육과정 설계자)</label></li><li><input type="checkbox" id="research-3-4"><label for="research-3-4">주차별 강의계획서 결과를 받았다 (담당 전문가: 교육과정 설계자)</label></li><li><input type="checkbox" id="research-3-5"><label for="research-3-5">평가 방법·CQI 환류 계획 결과를 받았다 (담당 전문가: 교육과정 설계자)</label></li><li><input type="checkbox" id="research-3-6"><label for="research-3-6">&quot;여기까지 확인하시겠어요?&quot;에서 멈추거나 &quot;끝까지&quot;로 진행했다</label></li><li><input type="checkbox" id="research-3-7"><label for="research-3-7">결과에 지어낸 사실이 없는지, 빈 값이 &quot;[확인 필요]&quot;로 남았는지 봤다</label></li></ul></div>
+    <div class="block"><div class="eyebrow">기대 결과</div><p class="expect">&quot;동사+대상+조건+기준&quot;으로 쓴 학습성과 3~5개와 Bloom 수준·역량 연계표, 응답 31명/48명 기준의 전 학기 진단 요약. 플립러닝·실습을 섞고 중간 8주·기말 15주를 박은 주차별 계획표. 루브릭이 붙은 평가 계획표와 CQI 반영 사항(개선 3가지가 어느 주차·어느 평가에 들어갔는지), 학기 말 측정 계획.</p></div>
+    <p class="apply"><b>내 자료로 하려면.</b> 과목 개요와 지난 강의평가(문항 평균 + 자유응답)를 붙여 넣으세요. 학과 전공역량 이름을 같이 주면 매핑까지 됩니다.</p>
+  </div>
+</article>
+  <section class="done">
+    <div class="eyebrow">마무리</div>
+    <p style="margin:0">네 가지 결과를 나란히 놓고 보면 공통점이 있습니다. 명령은 자료에 없는 것을 지어내지 않고 <b>[확인 필요]</b>로 남기며, 담당·기한·근거가 빠진 자리를 드러냅니다. 실제 업무에서는 그 빈칸을 채우는 것이 사람의 일입니다.</p>
+    <p style="margin:0" class="apply">다음 단계: 오늘 만든 결과 중 하나를 골라 내 자료로 다시 돌려 보세요. 이름·학번·연락처는 지우고 넣습니다. 어떤 명령을 쓸지 모르겠으면 <b>안내 데스크</b>에게 상황을 말하면 됩니다.</p>
+  </section>
+</main>
+</div>
+<footer><div>nxt-agency · NXT Cloud · 모든 샘플은 가상 기관·가상 인물의 데이터입니다.</div><div><a href="../guide.html">사용 안내</a> · <a href="https://github.com/nxtcloud-edu/nxt-agency">GitHub</a></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var root=document.documentElement, KEY='nxt-handson-'+document.body.getAttribute('data-role');
+  try{var t=localStorage.getItem('nxt-guide-theme'); if(t) root.setAttribute('data-theme',t);}catch(e){}
+  var tb=document.getElementById('theme-btn');
+  function label(){var cur=root.getAttribute('data-theme'); tb.textContent = cur==='dark'?'☀ 밝게':(cur==='light'?'◐ 시스템':'☾ 어둡게');}
+  tb.addEventListener('click',function(){ var cur=root.getAttribute('data-theme'); var next=!cur?'dark':(cur==='dark'?'light':null);
+    if(next) root.setAttribute('data-theme',next); else root.removeAttribute('data-theme');
+    try{ next?localStorage.setItem('nxt-guide-theme',next):localStorage.removeItem('nxt-guide-theme'); }catch(e){} label(); }); label();
+
+  var boxes=Array.prototype.slice.call(document.querySelectorAll('.check input')), bar=document.querySelector('.progress .bar i'), txt=document.getElementById('progress-text');
+  var saved={}; try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+  boxes.forEach(function(b){ if(saved[b.id]) b.checked=true; b.addEventListener('change',function(){ saved[b.id]=b.checked; try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){} update(); }); });
+  function update(){ var n=boxes.filter(function(b){return b.checked}).length; bar.style.width=(boxes.length?100*n/boxes.length:0)+'%'; txt.textContent=n+' / '+boxes.length+' 확인'; }
+  update();
+  document.getElementById('reset').addEventListener('click',function(){ boxes.forEach(function(b){b.checked=false}); saved={}; try{localStorage.removeItem(KEY);}catch(e){} update(); });
+
+  var toast=document.getElementById('toast'), timer;
+  function show(m){ toast.textContent=m; toast.classList.add('show'); clearTimeout(timer); timer=setTimeout(function(){toast.classList.remove('show')},1400); }
+  document.addEventListener('click',function(ev){ var b=ev.target.closest('[data-copy]'); if(!b) return;
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function(){show('복사했습니다')},function(){show('복사 실패 — 직접 선택해 복사하세요')}); } else show('이 브라우저에서는 자동 복사가 안 됩니다'); });
+})();
+</script></body>
+</html>
