@@ -30,5 +30,32 @@
 
 ## 사용 안내서 (docs/guide.html)
 
-- **생성 스크립트로 만든다.** 스킬·에이전트 프론트매터와 "이렇게 시작하세요" 예시를 읽어 HTML에 박아 넣으므로, 스킬이나 에이전트를 바꾸면 안내서도 다시 생성해야 한다. 생성기는 `scripts/build-guide.py`. 스킬·에이전트 수정 후 `python3 scripts/build-guide.py` 실행.
+- **생성 스크립트로 만든다.** 스킬·에이전트 프론트매터와 "이렇게 시작하세요" 예시를 읽어 HTML에 박아 넣으므로, 스킬이나 에이전트를 바꾸면 안내서도 다시 생성해야 한다. 핸즈온 4쪽(`docs/handson/`)도 같은 방식으로 `build-handson.py`가 샘플 README(체험할 수 있는 것·파일·시작 문장·기대 결과)와 SKILL.md(질문·단계)에서 체크리스트를 만든다. **샘플 README 형식을 바꾸면 정규식이 깨진다** — 형식은 SAMPLE 규칙(docs/CONTRIBUTING.md) 그대로 유지. 생성기는 `scripts/build-guide.py`. 스킬·에이전트 수정 후 `python3 scripts/build-guide.py` 실행.
+- **긴 한 줄 명령은 복사 버튼과 겹친다.** `pre.cmd`에 오른쪽 여백 72px을 둔 이유. 버튼을 옮기지 말고 여백을 유지한다.
 - **Claude in Chrome 확장은 아티팩트 프레임을 캡처하지 못한다.** 아티팩트 화면이 비어 보여도 `read`로 저장 내용을 확인하고, 렌더링 검증은 로컬 `python3 -m http.server`로 한다(file:// 은 확장이 차단).
+
+## Codex
+
+- **Codex 커스텀 에이전트는 `~/.codex/agents/<name>.toml`** (`name`, `description`, `developer_instructions`). 본문은 TOML 다중행 리터럴 `'''…'''`로 넣으므로 **에이전트 본문에 `'''`가 들어가면 깨진다.** 현재 0건. 서브에이전트로 쓰려면 Codex 설정에서 `agents.enabled`를 켜야 한다.
+- **Codex 스킬은 `~/.codex/skills/<name>/SKILL.md`** (프로젝트 스코프는 문서 기준 `.agents/skills/`). 호출은 `/`가 아니라 `$skill-name` 또는 `/skills`. 안내서·README에 이 차이를 적어 두었다.
+- **설치 예시는 Claude Code · Codex · Kiro 세 가지만 명시한다.** 그 밖의 도구(claude.ai 웹 등)는 "Agent Skills 표준이라 가능"으로만 언급하고 zip 패키징 스크립트를 안내한다(Glen 결정, 2026-09-20).
+
+## 체험 샘플 (skills/nxt-demo/samples/)
+
+- **샘플은 `/nxt-demo` 스킬 폴더 안에 둔다.** 레포 루트 `samples/`에 두면 설치·zip 시 따라가지 않는다. 스킬 폴더 안에 있어야 Claude Code·Codex·Kiro·claude.ai 어디서든 스킬이 상대 경로로 읽는다.
+- **스킬 하나마다 샘플 폴더 하나가 필수다.** `lint-skills.sh`가 공통 역할이 아닌 스킬에 `samples/<name>/README.md`가 없으면 오류를 낸다. 스킬을 추가하면 샘플도 같이 만든다.
+- **샘플은 전부 가상 데이터.** 한빛대학교·(주)가온테크·가상 인물만 쓰고, 입력 .md 첫 줄에 `# [샘플] 가상 데이터 — 체험용`, 연락처는 010-0000-0000·example.com만. 실제 번호·주민번호 패턴은 grep으로 검사한다.
+- **일부러 함정을 넣는다.** 담당 미정, 개인정보 섞인 문의, 미달 지표, 부풀리고 싶은 경험 등. 스킬이 이를 처리하는 모습이 체험의 핵심이므로 "깨끗한" 샘플로 고치지 않는다.
+- **체험 결과만 보여 주면 이해가 안 된다(Glen 피드백, 2026-09-20).** `/nxt-demo`는 실행 전에 "자료 소개"(무슨 자료, 안건별 내용, 함정)를 먼저 보여 주고, 결과 아래에 "이렇게 처리했습니다"를 붙인다. 샘플 README의 `**내용**:` 줄이 그 재료이며 핸즈온 페이지의 "자료에 들어 있는 것"에도 쓰인다. 새 샘플을 만들 때 이 줄을 빠뜨리지 않는다.
+
+## 발표자료 캡처 (제작도구/capture)
+
+- **`script -q <file> bash -lc <cmd>`는 표준입력이 없으면 아무것도 기록하지 않고 종료 코드 1로 끝난다.** 에이전트 셸(Bash 도구)처럼 stdin이 닫힌 환경에서 그렇다. 반드시 `</dev/null`을 붙인다. 또 기록 파일 앞에 `^D` 두 글자와 백스페이스가 남으므로 지운다.
+- **Claude Code 화면은 `claude -p`로 실제 출력을 받아 렌더링한다.** 비대화 모드에서는 스킬의 "시작할까요?" 확인 없이 끝까지 진행되므로, 중간 장면(자료 소개)이 필요하면 프롬프트에 "여기까지만 보여 주고 멈춰 줘"를 붙여 따로 받는다.
+- **발표 서버 importer는 메모를 '설명' 한 구간으로만 저장한다.** `[화면 진행]` 등 네 구간으로 보이려면 등록 직후 `제작도구/서버등록/split-notes.py <서버> <덱ID>`로 data/manifest/notes.json의 sections를 나눠야 한다(GIST 4주차도 publish 파이프라인에서 같은 처리를 했음). 메모 편집 후에는 실행 금지(revision>0이면 스크립트가 거부).
+
+
+## Claude Code 플러그인
+
+- **plugin.json의 `agents`에는 디렉터리를 나열할 수 없다.** `["./admin/", …]`는 "Invalid input"으로 거부되고 파일 경로 배열만 통과한다(문자열 하나로 디렉터리 하나는 가능). 우리 에이전트는 디비전 폴더 6개에 흩어져 있어 파일 27개를 명시하며, `scripts/update-plugin-manifest.py`가 생성하고 lint가 동기화를 검사한다.
+- **플러그인으로 설치하면 스킬·에이전트 이름에 접두어가 붙는다.** `/nxt-agency:meeting-minutes`, `@nxt-agency:statistician`. 설명(description) 기반 자동 위임은 접두어와 무관하게 동작하므로 초보자에게는 "말로 요청" 안내가 더 중요하다. install.sh 설치(접두어 없음)와 플러그인 설치를 함께 쓰면 같은 이름이 두 벌 생기니 한쪽만 쓴다.

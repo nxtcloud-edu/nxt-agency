@@ -1,0 +1,16 @@
+{
+  "name": "nxt-agency",
+  "owner": {
+    "name": "NXT Cloud",
+    "url": "https://github.com/nxtcloud-edu"
+  },
+  "plugins": [
+    {
+      "name": "nxt-agency",
+      "source": "./",
+      "description": "대학·공공기관을 위한 한국어 AI 업무 도우미 — 직업군 명령 14개, 전문가 27명, 샘플 체험",
+      "version": "0.1.0"
+    }
+  ],
+  "description": "NXT Cloud 교육용 Claude Code 플러그인 모음"
+}

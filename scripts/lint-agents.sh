@@ -68,6 +68,15 @@ fi
 
 for f in "${files[@]}"; do lint_file "$f"; done
 
+# 플러그인 매니페스트의 agents 목록이 실제 파일과 같은지
+if [[ -f "$REPO_ROOT/.claude-plugin/plugin.json" ]]; then
+  expected="$(for div in "${DIVISIONS[@]}"; do for f in "$REPO_ROOT/$div"/*.md; do [[ -f "$f" ]] && echo "./${f#$REPO_ROOT/}"; done; done | sort)"
+  actual="$(python3 -c "import json;print('\n'.join(sorted(json.load(open('$REPO_ROOT/.claude-plugin/plugin.json')).get('agents',[]))))")"
+  if [[ "$expected" != "$actual" ]]; then
+    echo "ERROR .claude-plugin/plugin.json: agents 목록이 실제 파일과 다릅니다 — python3 scripts/update-plugin-manifest.py 실행"; errors=$((errors+1))
+  fi
+fi
+
 echo
 echo "검사 파일: ${#files[@]}개, 오류: ${errors}개"
 [[ $errors -eq 0 ]]

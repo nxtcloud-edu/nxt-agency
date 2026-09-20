@@ -1,0 +1,39 @@
+{
+  "name": "nxt-agency",
+  "displayName": "nxt-agency",
+  "version": "0.1.0",
+  "description": "대학·공공기관을 위한 한국어 AI 업무 도우미 — 직업군 명령 14개, 전문가 27명, 샘플 체험",
+  "author": {
+    "name": "NXT Cloud",
+    "url": "https://github.com/nxtcloud-edu/nxt-agency"
+  },
+  "agents": [
+    "./admin/admin-compliance-checker.md",
+    "./admin/admin-document-generator.md",
+    "./admin/admin-inquiry-responder.md",
+    "./admin/admin-meeting-minutes.md",
+    "./admin/admin-privacy-officer.md",
+    "./admin/admin-process-improver.md",
+    "./admin/admin-report-summarizer.md",
+    "./education/education-course-designer.md",
+    "./education/education-resume-coach.md",
+    "./education/education-study-abroad-advisor.md",
+    "./education/education-study-career-mentor.md",
+    "./engineering/engineering-ai-engineer.md",
+    "./engineering/engineering-backend-architect.md",
+    "./engineering/engineering-code-reviewer.md",
+    "./engineering/engineering-frontend-developer.md",
+    "./engineering/engineering-rapid-prototyper.md",
+    "./guide/guide-concierge.md",
+    "./project/project-budget-manager.md",
+    "./project/project-content-creator.md",
+    "./project/project-performance-analyst.md",
+    "./project/project-pr-manager.md",
+    "./project/project-program-manager.md",
+    "./project/project-survey-analyst.md",
+    "./research/research-literature-reviewer.md",
+    "./research/research-proposal-writer.md",
+    "./research/research-statistician.md",
+    "./research/research-trend-researcher.md"
+  ]
+}
