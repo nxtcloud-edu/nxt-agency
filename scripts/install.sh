@@ -5,7 +5,7 @@
 #   ./scripts/install.sh                          # 설치된 도구 자동 감지(~/.claude, ~/.codex, ~/.kiro) 후 전부 설치
 #   ./scripts/install.sh --tool claude-code       # Claude Code 만
 #   ./scripts/install.sh --tool codex             # Codex 만 (~/.codex/agents/*.toml, ~/.codex/skills)
-#   ./scripts/install.sh --tool kiro              # AWS Kiro 만 (IDE·CLI 공통 경로 ~/.kiro)
+#   ./scripts/install.sh --tool kiro              # AWS Kiro 만 (IDE·CLI 공통 경로 ~/.kiro, 에이전트는 JSON)
 #   ./scripts/install.sh --tool claude-code,codex,kiro
 #   ./scripts/install.sh --project                # 현재 폴더의 .claude/ .codex/ .kiro/ 에 설치 (Codex 스킬은 .agents/skills/)
 #   ./scripts/install.sh --role admin             # 직업군 하나만: project|admin|research|student (한글 사업단|행정|교수·연구자|학생 도 가능)
@@ -177,16 +177,20 @@ fi
 
 # ---------- Kiro 에이전트 변환 ----------
 # Kiro 커스텀 에이전트(.md): 프론트매터(name/description/tools) + 본문 = 시스템 프롬프트
-render_kiro_agent() {  # $1=division $2=file -> stdout
-  local div="$1" f="$2" tools_line
+render_kiro_agent() {  # $1=division $2=file $3=skills 경로(스킬 glob용) -> stdout
+  # Kiro CLI 는 ~/.kiro/agents/*.json 만 읽는다(2.x, unknown field 거부). IDE 도 같은 JSON 을 읽는다.
+  local div="$1" f="$2" skills_dir="$3" tools_json
   case "$div" in
-    engineering) tools_line='["read", "write", "shell", "web"]' ;;
-    *)           tools_line='["read", "write", "web"]' ;;
+    engineering) tools_json='["read", "write", "shell", "web_search", "web_fetch"]' ;;
+    *)           tools_json='["read", "write", "web_search", "web_fetch"]' ;;
   esac
-  printf -- '---\nname: %s\ndescription: %s\ntools: %s\n---\n' \
-    "$(fm_value "$f" name)" "$(fm_value "$f" description | sed 's/"/\\"/g')" "$tools_line"
-  printf '<!-- nxt-agency: %s -->\n' "$(fm_value "$f" source)"
-  body_after_fm "$f"
+  { printf '<!-- nxt-agency: %s -->\n' "$(fm_value "$f" source)"; body_after_fm "$f"; } |
+  python3 -c '
+import json, sys
+name, desc, tools, skills = sys.argv[1:5]
+print(json.dumps({"name": name, "description": desc, "prompt": sys.stdin.read().rstrip() + "\n",
+                  "tools": json.loads(tools), "resources": ["skill://" + skills + "/*/SKILL.md"]},
+                 ensure_ascii=False, indent=2))' "$(fm_value "$f" name)" "$(fm_value "$f" description)" "$tools_json" "$skills_dir"
 }
 
 # ---------- Codex 에이전트 변환 ----------
@@ -207,7 +211,7 @@ do_file() {  # $1=동작(copy|render-kiro|copy-dir|remove) $2=src $3=dst [$4=div
   if [[ $dry_run -eq 1 ]]; then echo "[dry-run] $act  $dst"; return; fi
   case "$act" in
     copy)         mkdir -p "$(dirname "$dst")"; cp "$src" "$dst" ;;
-    render-kiro)  mkdir -p "$(dirname "$dst")"; render_kiro_agent "$div" "$src" > "$dst" ;;
+    render-kiro)  mkdir -p "$(dirname "$dst")"; render_kiro_agent "$div" "$src" "$(skills_root kiro)/skills" > "$dst" ;;
     render-codex) mkdir -p "$(dirname "$dst")"; render_codex_agent "$src" > "$dst" ;;
     copy-dir)    rm -rf "$dst"; mkdir -p "$(dirname "$dst")"; cp -R "$src" "$dst" ;;
     remove)      rm -rf "$dst" ;;
@@ -225,7 +229,9 @@ for tool in "${TOOLS[@]}"; do
   echo "== $tool -> $root"
   n_a=0; n_s=0
   for e in "${SEL_AGENTS[@]:-}"; do [[ -n "$e" ]] || continue; IFS='|' read -r div name f <<<"$e"
-    case "$tool" in codex) dst="$root/agents/$name.toml" ;; *) dst="$root/agents/$name.md" ;; esac
+    case "$tool" in codex) dst="$root/agents/$name.toml" ;; kiro) dst="$root/agents/$name.json" ;; *) dst="$root/agents/$name.md" ;; esac
+    # 예전 버전이 넣은 Kiro 마크다운 에이전트(CLI 가 읽지 못함)는 정리한다
+    [[ "$tool" == kiro ]] && is_ours "$root/agents/$name.md" && do_file remove "$f" "$root/agents/$name.md"
     if [[ $uninstall -eq 1 ]]; then is_ours "$dst" && { do_file remove "$f" "$dst"; n_a=$((n_a+1)); }; continue; fi
     case "$tool" in
       claude-code) do_file copy "$f" "$dst" ;;
@@ -248,5 +254,6 @@ if [[ $uninstall -eq 0 && $dry_run -eq 0 ]]; then
   echo "이렇게 시작하세요:"
   echo "  /meeting-minutes          ← 스킬은 슬래시 명령으로 (Claude Code·Kiro). Codex 는 \$meeting-minutes 또는 /skills"
   echo "  \"회의록 정리원으로 이 녹취록을 정리해줘\"   ← 전문가는 이름으로 부르기"
+  echo "  전문가 직접 지정: Claude Code @statistician · Codex \$statistician · Kiro kiro-cli chat --agent statistician"
   echo "  그 밖의 도구(claude.ai 웹 등)에 올릴 zip: ./scripts/package-skills.sh"
 fi

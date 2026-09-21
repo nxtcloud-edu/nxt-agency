@@ -1,7 +1,7 @@
 # 🏫 nxt-agency — 대학·공공기관을 위한 AI 업무 도우미
 
 > 대학생 · 교수 · 사업단 · 행정직원 · 공공기관 담당자가 **명령 하나로 업무 하나를 끝내는** 한국어 AI 워크플로우.
-> Claude Code, Codex, AWS Kiro에 한 줄로 설치됩니다. Agent Skills 표준을 따르는 다른 도구(claude.ai 웹 등)에도 쓸 수 있습니다.
+> Claude Code, Codex, AWS Kiro에 한 줄로 설치됩니다(Claude Code는 플러그인으로도). Agent Skills 표준을 따르는 다른 도구(claude.ai 웹 등)에도 쓸 수 있습니다.
 > [agency-agents](https://github.com/msitarzewski/agency-agents)(MIT)에서 필요한 전문가만 골라 한국어로 옮기고, 그 위에 직업군별 워크플로우를 얹었습니다.
 
 ---
@@ -104,12 +104,25 @@ cd nxt-agency
 
 ## 🛠️ 설치
 
-### Claude Code
+### Claude Code — 방법 1: 설치 스크립트
 
 ```bash
 ./scripts/install.sh --tool claude-code            # ~/.claude/agents, ~/.claude/skills
 ./scripts/install.sh --tool claude-code --project  # 현재 프로젝트 .claude/ 에
 ```
+
+`/meeting-minutes`처럼 부르고, 전문가는 말로 요청하면 자동으로 위임됩니다(`@statistician`처럼 직접 지정도 가능).
+
+### Claude Code — 방법 2: 플러그인 (레포를 받지 않고)
+
+이 레포가 곧 마켓플레이스입니다. Claude Code 안에서 두 줄을 차례로 치면 스킬 15개와 전문가 27명이 한 번에 들어가고, 업데이트도 Claude Code가 관리합니다.
+
+```
+/plugin marketplace add nxtcloud-edu/nxt-agency
+/plugin install nxt-agency@nxt-agency
+```
+
+이름 앞에 `nxt-agency:`가 붙어 `/nxt-agency:meeting-minutes`, `@nxt-agency:statistician`처럼 부릅니다. "회의록 만들어줘"처럼 말로 하면 접두어 없이도 알아서 찾습니다. 지우려면 `/plugin uninstall nxt-agency@nxt-agency`. **방법 1과 2를 같이 쓰면 같은 이름이 두 벌 보이니 한쪽만 쓰세요.**
 
 ### Codex
 
@@ -123,24 +136,13 @@ Codex에서는 `$meeting-minutes` 또는 `/skills`로 스킬을 부릅니다. �
 
 ### AWS Kiro (IDE · CLI 공통)
 
-회사에서 Kiro 계정을 받은 경우. 에이전트는 Kiro 커스텀 에이전트 형식으로 변환되어 들어가고, 스킬은 그대로 복사됩니다.
+회사에서 Kiro 계정을 받은 경우. 에이전트는 Kiro 커스텀 에이전트 JSON(`~/.kiro/agents/<name>.json`)으로 변환되어 들어가고, 스킬은 그대로 복사됩니다. Kiro CLI(`kiro-cli`)와 Kiro IDE가 같은 폴더를 읽습니다.
 
 ```bash
 ./scripts/install.sh --tool kiro                   # ~/.kiro/agents, ~/.kiro/skills
 ```
 
-Kiro에서도 `/meeting-minutes` 처럼 스킬을 부르고, 에이전트는 `/agent` 로 전환합니다.
-
-### Claude Code 플러그인으로 설치 (마켓플레이스)
-
-레포를 clone하지 않고 Claude Code 안에서 바로 설치·업데이트하는 방법입니다. 명령과 전문가 이름 앞에 `nxt-agency:` 접두어가 붙습니다.
-
-```
-/plugin marketplace add nxtcloud-edu/nxt-agency
-/plugin install nxt-agency@nxt-agency
-```
-
-그 다음 `/nxt-agency:nxt-demo`처럼 부르거나, 그냥 "회의록 만들어줘"라고 말하면 됩니다. 설치 스크립트 방식과 플러그인 방식을 같이 쓰면 이름이 두 벌 생기니 한쪽만 쓰세요.
+Kiro에서도 `/meeting-minutes` 처럼 스킬을 부르고, 에이전트는 `kiro-cli chat --agent statistician` 또는 대화 중 `/agent` 로 전환합니다. Kiro Powers(IDE 플러그인)는 스킬만 담을 수 있어 지원하지 않습니다.
 
 ### 그 밖의 도구
 
@@ -184,11 +186,14 @@ nxt-agency/
 │   ├── handson/             직업군별 핸즈온 시나리오 4쪽
 │   ├── agents.md            전문가 목록
 │   └── CONTRIBUTING.md      작성 규칙
+├── docs/deck/               소개·핸즈온 발표자료 소스(JSON)와 실제 화면 캡처
+├── .claude-plugin/          Claude Code 플러그인 매니페스트 (plugin.json, marketplace.json)
 ├── scripts/
 │   ├── install.sh           설치 (Claude Code, Codex, Kiro)
 │   ├── package-skills.sh    그 밖의 도구용 스킬 zip
-│   ├── lint-agents.sh       에이전트 형식 검사
+│   ├── lint-agents.sh       에이전트 형식 검사 + 플러그인 매니페스트 동기화 검사
 │   ├── lint-skills.sh       스킬 형식 검사
+│   ├── update-plugin-manifest.py   플러그인 에이전트 목록 재생성
 │   ├── build-guide.py       docs/guide.html 생성
 │   ├── build-handson.py     docs/handson/*.html 생성
 │   └── guide_theme.css      두 생성기가 공유하는 디자인 토큰·스타일
@@ -198,7 +203,7 @@ nxt-agency/
 ## ✍️ 추가·수정
 
 - 스킬: `skills/<name>/SKILL.md`. 프론트매터는 claude.ai 업로드 제한 때문에 `name description license compatibility metadata` 다섯 키만 씁니다.
-- 에이전트: `<디비전>/<디비전>-<slug>.md`. 규칙은 [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+- 에이전트: `<디비전>/<디비전>-<slug>.md`. 규칙은 [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md). 추가·삭제 후 `python3 scripts/update-plugin-manifest.py`로 플러그인 목록을 맞춥니다.
 - 검사: `./scripts/lint-agents.sh && ./scripts/lint-skills.sh`
 
 ## 📜 라이선스와 출처

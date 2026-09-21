@@ -5,7 +5,7 @@
 ## 구조
 - `skills/<name>/SKILL.md` — 직업군 워크플로우 14개. 프론트매터는 표준 5키만(claude.ai 업로드 제한). `metadata.role`·`metadata.agents` 필수
 - `guide/ research/ education/ admin/ project/ engineering/` — 에이전트 마크다운 (디비전 = `divisions.json`)
-- `scripts/install.sh` — Claude Code(`~/.claude`)·Codex(`~/.codex`)·Kiro(`~/.kiro`) 설치. Codex 에이전트는 TOML, Kiro 에이전트는 마크다운 커스텀 에이전트 형식으로 변환
+- `scripts/install.sh` — Claude Code(`~/.claude`)·Codex(`~/.codex`)·Kiro(`~/.kiro`) 설치. Codex 에이전트는 TOML, Kiro 에이전트는 JSON 커스텀 에이전트(CLI·IDE 공통)로 변환
 - `scripts/package-skills.sh` — 그 밖의 도구(claude.ai 웹 등)용 스킬 zip
 - `scripts/lint-skills.sh` — 스킬 검사. 스킬 수정 후 반드시 실행
 - `scripts/build-guide.py` — `docs/guide.html`(사용 안내서 + 데모 핸즈온) 생성. 스킬·에이전트 수정 후 재실행

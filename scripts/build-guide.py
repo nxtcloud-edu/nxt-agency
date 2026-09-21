@@ -210,8 +210,8 @@ cd nxt-agency
     <div class="panel" id="ip-kiro" role="tabpanel" aria-labelledby="it-kiro" hidden>
       <div class="step-list">
         <div class="step"><div><h4>준비물</h4><p>회사에서 받은 Kiro 계정으로 Kiro IDE 또는 Kiro CLI에 로그인되어 있어야 합니다. 홈 폴더에 <code>.kiro</code> 폴더가 생겨 있으면 준비된 것입니다.</p></div></div>
-        <div class="step"><div><h4>설치 명령 실행</h4><p>같은 설치 스크립트에 <code>--tool kiro</code>를 붙입니다. 명령은 그대로 들어가고, 전문가는 Kiro의 커스텀 에이전트 형식으로 바뀌어 들어갑니다.</p></div></div>
-        <div class="step"><div><h4>확인</h4><p>Kiro 채팅에서 <code>/meeting-minutes</code>를 치면 스킬이 실행됩니다. 전문가는 <code>/agent</code>로 전환해 고를 수 있습니다.</p></div></div>
+        <div class="step"><div><h4>설치 명령 실행</h4><p>같은 설치 스크립트에 <code>--tool kiro</code>를 붙입니다. 명령은 그대로 들어가고, 전문가는 Kiro 커스텀 에이전트 JSON으로 바뀌어 <code>~/.kiro/agents</code>에 들어갑니다. Kiro CLI와 Kiro IDE가 같은 폴더를 읽습니다.</p></div></div>
+        <div class="step"><div><h4>확인</h4><p>Kiro 채팅에서 <code>/meeting-minutes</code>를 치면 스킬이 실행됩니다. 전문가는 <code>kiro-cli chat --agent statistician</code>처럼 시작하거나 대화 중 <code>/agent</code>로 전환합니다.</p></div></div>
       </div>
       <div class="cmd-wrap"><pre class="cmd">git clone https://github.com/nxtcloud-edu/nxt-agency.git
 cd nxt-agency
@@ -224,7 +224,7 @@ cd nxt-agency
 
 <section id="s3">
   <div class="sec-head"><div class="num">03</div><h2>샘플로 체험하기 · 데모 핸즈온</h2></div>
-  <div class="prose"><p>자기 자료를 넣기 부담스럽거나 무엇을 넣어야 할지 모르겠다면 여기서 시작하세요. 15분이면 명령 하나를 끝까지 경험할 수 있습니다. 모든 샘플은 가상 대학(한빛대학교)과 가상 인물의 자료입니다. 체크한 항목은 이 브라우저에 저장됩니다.</p></div>
+  <div class="prose"><p>자기 자료를 넣기 부담스럽거나 무엇을 넣어야 할지 모르겠다면 여기서 시작하세요. 15분이면 명령 하나를 끝까지 경험할 수 있습니다. 모든 샘플은 가상 대학(넥클대학교)과 가상 인물의 자료입니다. 체크한 항목은 이 브라우저에 저장됩니다.</p></div>
   <div class="step-list">
     <div class="step"><div><h4>준비 확인 <span class="time-tag">1분</span></h4><p><code>/</code>(Codex는 <code>$</code>)를 쳤을 때 목록에 <code>nxt-demo</code>가 보이면 준비된 것입니다. 안 보이면 <a href="#s2">설치하기</a>로.</p>
       <ul class="check"><li><input type="checkbox" id="d-0"><label for="d-0">명령 목록에 nxt-demo가 보인다</label></li></ul></div></div>
@@ -303,7 +303,7 @@ cd nxt-agency
 
 <section id="s6">
   <div class="sec-head"><div class="num">06</div><h2>전문가 직접 부르기</h2></div>
-  <div class="prose"><p>명령에 없는 일이거나 한 단계만 다시 하고 싶을 때는 전문가를 이름으로 부릅니다. "통계·연구설계 전문가로, …" 처럼 한글 이름을 앞에 붙이면 됩니다. Claude Code에서는 <code>@이름</code>, Kiro에서는 <code>/agent</code>로도 고를 수 있습니다.</p></div>
+  <div class="prose"><p>명령에 없는 일이거나 한 단계만 다시 하고 싶을 때는 전문가를 이름으로 부릅니다. "통계·연구설계 전문가로, …" 처럼 한글 이름을 앞에 붙이면 됩니다. 도구별로 직접 지정하는 방법도 있습니다. Claude Code는 <code>@statistician</code>(플러그인 설치면 <code>@nxt-agency:statistician</code>), Codex는 <code>$statistician</code>(설정에서 멀티에이전트를 켠 경우), Kiro CLI는 <code>kiro-cli chat --agent statistician</code>으로 시작하거나 대화 중 <code>/agent</code>로 바꿉니다.</p></div>
   <div class="tbl-wrap"><table>
     <thead><tr><th>분야</th><th>전문가</th><th>이럴 때</th><th>예시 요청</th></tr></thead>
     <tbody>{agent_table}</tbody>
