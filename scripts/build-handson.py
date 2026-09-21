@@ -17,7 +17,7 @@ e = html.escape
 SCENARIOS = {
     'project': dict(
         role='사업단', key='project', title='사업단 핸즈온', minutes=90,
-        persona='박지훈 팀장 · 한빛대학교 LINC 3.0 사업단',
+        persona='박지훈 팀장 · 넥클대학교 LINC 3.0 사업단',
         situation='10월 마지막 주. 연차 종료까지 넉 달 남았는데 장비비 집행률이 한 자릿수다. 다음 달에는 캡스톤디자인 성과발표회가 있고, 교육부에서 차년도 사업 공고가 떴다. 연차평가 성과보고서도 슬슬 시작해야 한다. 이 네 가지를 오늘 오후에 한 번씩 돌려 본다.',
         steps=[
             ('budget-check', '집행 현황부터 본다', '단장님이 "돈 얼마나 남았어?"라고 물을 때 바로 답할 수 있어야 한다.', 20,
@@ -31,7 +31,7 @@ SCENARIOS = {
         ]),
     'admin': dict(
         role='행정', key='admin', title='행정 핸즈온', minutes=60,
-        persona='최수아 주무관 · 한빛대학교 산학협력단 행정팀',
+        persona='최수아 주무관 · 넥클대학교 산학협력단 행정팀',
         situation='월요일 아침. 지난주 운영위원회 회의록 결재가 밀려 있고, 주말 사이 문의가 네 건 들어왔다. 취업역량 설문을 이번 주에 열어야 해서 동의서도 필요하고, 오후에는 중간평가 보고서를 처장님께 요약해 드려야 한다. 점심 전에 넷 다 초안을 만든다.',
         steps=[
             ('meeting-minutes', '회의록부터 결재 올린다', '결정된 것과 논의만 된 것을 구분하는 것이 회의록의 전부다.', 15,
@@ -45,7 +45,7 @@ SCENARIOS = {
         ]),
     'research': dict(
         role='교수·연구자', key='research', title='교수·연구자 핸즈온', minutes=75,
-        persona='김서연 교수 · 한빛대학교 경영학과',
+        persona='김서연 교수 · 넥클대학교 경영학과',
         situation='학기 초. 한국연구재단 중견연구 공고 마감이 3주 남았고, 지도 중인 석사생은 2장 문헌고찰이 막혀 있다. 지난 학기 강의평가가 좋지 않았던 전공 과목도 이번 학기에 손봐야 한다. 연구실에서 오후 내내 세 가지를 차례로 돌린다.',
         steps=[
             ('literature-review', '학생의 선행연구 정리를 같이 본다', '같은 데이터를 재사용한 논문 두 편이 근거 하나로 묶이는지 본다.', 25,
@@ -57,7 +57,7 @@ SCENARIOS = {
         ]),
     'student': dict(
         role='학생', key='student', title='학생 핸즈온', minutes=60,
-        persona='이도윤 · 한빛대학교 경영학과 4학년',
+        persona='이도윤 · 넥클대학교 경영학과 4학년',
         situation='2학기가 시작됐다. 18학점에 주 15시간 아르바이트, 캡스톤 중간 발표는 2주 뒤, 공공기관 채용 마감은 11일 뒤. 뭐부터 해야 할지 모르겠어서 셋 다 한 번씩 돌려 본다.',
         steps=[
             ('semester-plan', '이번 학기 시간부터 계산한다', '목표 세 개가 주당 가용 시간에 들어가는지 숫자로 본다.', 15,
@@ -100,10 +100,10 @@ def load_sample(name):
 
 # ---------- 렌더링 ----------
 EXTRA_CSS = r"""
-.hero{border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start;background:var(--panel)}
+.hero{border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,max-content);gap:20px;align-items:start;background:var(--panel)}
 .hero .persona{font-family:var(--font-display);font-size:1.25rem;margin-bottom:6px}
 .hero .situation{color:var(--muted);max-width:66ch;margin:0}
-.hero .meta{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--muted);font-family:var(--font-mono);text-align:right;white-space:nowrap}
+.hero .meta{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--muted);font-family:var(--font-mono);text-align:right;max-width:34ch;overflow-wrap:anywhere}
 .hero .meta b{font-family:var(--font-display);font-size:1.6rem;color:var(--ink);display:block;line-height:1.1}
 .progress{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;font-size:.85rem;color:var(--muted)}
 .progress .bar{flex:1;height:6px;background:var(--panel-2);border-radius:999px;overflow:hidden}
@@ -132,7 +132,8 @@ EXTRA_CSS = r"""
 .role-nav{display:flex;gap:8px;flex-wrap:wrap;font-size:.85rem}
 .role-nav a{border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;color:var(--muted)}
 .role-nav a.is-here{border-color:var(--rc);color:var(--rc);background:var(--rs)}
-@media (max-width:700px){.hero{grid-template-columns:1fr}.hero .meta{text-align:left}.lab{grid-template-columns:40px minmax(0,1fr)}.lab__body{padding:14px}}
+@media (max-width:900px){.hero{grid-template-columns:1fr}.hero .meta{text-align:left;max-width:none}.hero .meta span{display:block}}
+@media (max-width:700px){.lab{grid-template-columns:40px minmax(0,1fr)}.lab__body{padding:14px}.role-nav{flex-wrap:wrap}}
 @media print{.progress,.theme-btn,.copy,.exline button{display:none!important}.lab{break-inside:avoid}}
 """
 

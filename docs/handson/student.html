@@ -176,10 +176,10 @@ footer{max-width:1180px;margin:0 auto;padding:24px;border-top:1px solid var(--li
 .role-links a:hover{border-color:var(--rc);background:var(--rs)}
 .alt-head{font-family:var(--font-body);font-weight:600;font-size:1rem;margin:22px 0 6px;padding-top:16px;border-top:1px dashed var(--line);color:var(--ink)}
 
-.hero{border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start;background:var(--panel)}
+.hero{border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,max-content);gap:20px;align-items:start;background:var(--panel)}
 .hero .persona{font-family:var(--font-display);font-size:1.25rem;margin-bottom:6px}
 .hero .situation{color:var(--muted);max-width:66ch;margin:0}
-.hero .meta{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--muted);font-family:var(--font-mono);text-align:right;white-space:nowrap}
+.hero .meta{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--muted);font-family:var(--font-mono);text-align:right;max-width:34ch;overflow-wrap:anywhere}
 .hero .meta b{font-family:var(--font-display);font-size:1.6rem;color:var(--ink);display:block;line-height:1.1}
 .progress{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;font-size:.85rem;color:var(--muted)}
 .progress .bar{flex:1;height:6px;background:var(--panel-2);border-radius:999px;overflow:hidden}
@@ -208,7 +208,8 @@ footer{max-width:1180px;margin:0 auto;padding:24px;border-top:1px solid var(--li
 .role-nav{display:flex;gap:8px;flex-wrap:wrap;font-size:.85rem}
 .role-nav a{border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;color:var(--muted)}
 .role-nav a.is-here{border-color:var(--rc);color:var(--rc);background:var(--rs)}
-@media (max-width:700px){.hero{grid-template-columns:1fr}.hero .meta{text-align:left}.lab{grid-template-columns:40px minmax(0,1fr)}.lab__body{padding:14px}}
+@media (max-width:900px){.hero{grid-template-columns:1fr}.hero .meta{text-align:left;max-width:none}.hero .meta span{display:block}}
+@media (max-width:700px){.lab{grid-template-columns:40px minmax(0,1fr)}.lab__body{padding:14px}.role-nav{flex-wrap:wrap}}
 @media print{.progress,.theme-btn,.copy,.exline button{display:none!important}.lab{break-inside:avoid}}
 </style>
 </head>
@@ -231,7 +232,7 @@ footer{max-width:1180px;margin:0 auto;padding:24px;border-top:1px solid var(--li
 <main style="--rc:var(--r-student);--rs:var(--r-student-soft);gap:28px">
   <nav class="role-nav" aria-label="직업군 선택"><a href="project.html" class="">사업단</a><a href="admin.html" class="">행정</a><a href="research.html" class="">교수·연구자</a><a href="student.html" class="is-here">학생</a></nav>
   <section class="hero">
-    <div><div class="eyebrow">페르소나</div><div class="persona">이도윤 · 한빛대학교 경영학과 4학년</div><p class="situation">2학기가 시작됐다. 18학점에 주 15시간 아르바이트, 캡스톤 중간 발표는 2주 뒤, 공공기관 채용 마감은 11일 뒤. 뭐부터 해야 할지 모르겠어서 셋 다 한 번씩 돌려 본다.</p></div>
+    <div><div class="eyebrow">페르소나</div><div class="persona">이도윤 · 넥클대학교 경영학과 4학년</div><p class="situation">2학기가 시작됐다. 18학점에 주 15시간 아르바이트, 캡스톤 중간 발표는 2주 뒤, 공공기관 채용 마감은 11일 뒤. 뭐부터 해야 할지 모르겠어서 셋 다 한 번씩 돌려 본다.</p></div>
     <div class="meta"><span><b>60분</b>총 소요</span><span>/semester-plan → /capstone → /cover-letter</span></div>
   </section>
   <div class="progress"><span>진행률</span><div class="bar"><i></i></div><span id="progress-text">0 / 0 확인</span><button type="button" id="reset">초기화</button></div>
